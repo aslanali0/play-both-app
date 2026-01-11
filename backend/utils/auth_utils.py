@@ -1,6 +1,3 @@
-from warnings import deprecated
-from fastapi import HTTPException
-from fastapi.security.http import HTTP_401_UNAUTHORIZED
 from passlib.context import CryptContext
 import os
 from jose import jwt

@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from app.database import user_collection
 from models.user import UserCreate, UserLogin
-from app.auth_utils import hash_pwd, verify_pwd
+from utils.auth_utils import hash_pwd, verify_pwd
 
 
 async def create_user(user: UserCreate):
