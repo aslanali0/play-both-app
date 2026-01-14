@@ -5,8 +5,8 @@ from models.game import Game
 router = APIRouter()
 
 
-@router.post("/search")
-async def search_game_info(game_name: str, response_Model: Game):
+@router.get("/search")
+async def search_game_info(game_name: str):
     game = await get_game_and_songs(game_name)
     if game:
         return game

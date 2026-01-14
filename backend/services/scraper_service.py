@@ -1,6 +1,5 @@
 import httpx
 import bs4
-import asyncio  # Aynı şekilde bu da silinecek
 
 
 async def get_albums(game_name: str):
@@ -33,8 +32,3 @@ async def get_albums(game_name: str):
         song_name = tds[1].get_text(strip=True)
         songs.append(song_name)
     return songs
-
-
-# Bunları silmeyin unutmamalıyım
-if __name__ == "__main__":
-    asyncio.run(get_albums("Black Desert"))
