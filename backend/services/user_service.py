@@ -22,7 +22,7 @@ async def auth_user(email: str, password: str):
         raise HTTPException(status_code=400, detail="User not found")
     hashed_pwd = existing_user.get("password")
     if verify_pwd(password, hashed_pwd):
-        logged_user = {"email": email, "password": password}
+        logged_user = {"username": existing_user.get('username'), "email": email, "password": password}
         return logged_user
     else:
         return None

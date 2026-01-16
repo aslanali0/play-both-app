@@ -25,7 +25,9 @@ const LoginPage = () => {
       const response = await axios.post("http://localhost:8000/users/login", userData);
 
       const token = response.data.access_token;
+      const username = response.data.username;
       localStorage.setItem('token', token);
+      localStorage.setItem('username', username);
       console.log(response.data + " Successfully loged in");
       navigate('/home');
     }
