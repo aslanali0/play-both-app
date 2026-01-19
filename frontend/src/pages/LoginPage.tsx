@@ -34,19 +34,10 @@ const LoginPage = () => {
 
     catch (error) {
       console.error("Login error: ", error);
+      localStorage.clear();
     }
 
   }
-
-  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
-
-    e.preventDefault();
-    const userData = {
-      "email": email,
-      "password": password
-    }
-  }
-
 
 
   return (
@@ -70,3 +61,4 @@ const LoginPage = () => {
 
 
 export default LoginPage;
+

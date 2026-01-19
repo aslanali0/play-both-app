@@ -4,11 +4,11 @@ export interface Game extends BaseEntity {
   steam_id: string,
   title: string,
   image_url: string | null,
-  soundtrack: Array<Track>
+  soundtrack: Array<Song>
 
 }
 
-export interface Track extends BaseEntity {
+export interface Song extends BaseEntity {
   title: string,
   youtube_url: string | null
 } 

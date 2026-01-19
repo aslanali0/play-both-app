@@ -1,0 +1,45 @@
+import axios from 'axios'
+import { useState } from 'react'
+import type { Game } from '../types/content';
+
+const SearchBar = ({ onGameFound }) => {
+
+
+
+  const [search, setSearch] = useState('');
+
+  const handleSearch = async (e: React.FormEvent<HTMLInputElement>) => {
+
+    e.preventDefault();
+
+
+    try {
+      console.log(search)
+      const response = await axios.get("http://localhost:8000/games/search", {
+        params: {
+          game_name: search
+        }
+      });
+      const game_data = response.data;
+      console.log(game_data)
+      onGameFound(game_data)
+    } catch (error) {
+
+      console.log("search error: " + error)
+
+    }
+  }
+
+  return (<div>
+
+    <form className="text-white flex relative max-w-xl mx-auto mt-8" onSubmit={handleSearch}>
+      <input className="bg-indigo-950/50 rounded-l w-full border-blue text-lg text-white px-4 py-3 focus:outline-none focus:ring-0 placeholder-gray-500" type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search for a game..." />
+      <input type="submit" className="rounded-r p-4 text-stone-50/70 cursor-pointer bg-indigo-950/90 transition hover:bg-indigo-700 hover:text-white" value="Search" />
+    </form>
+  </div>)
+}
+
+export default SearchBar;

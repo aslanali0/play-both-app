@@ -1,2 +1,13 @@
-@import "tailwindcss";
+ @import "tailwindcss";
 
+@theme {
+  --color-neon-cyan: #22d3ee;
+  --color-neon-purple: #a855f7;
+  --shadow-neon: 0 0 15px var(--color-neon-cyan);
+}
+
+
+@utility home-element{
+  background-color: oklch(0.2 0.05 250 / 0.4); 
+  border: none;
+}
