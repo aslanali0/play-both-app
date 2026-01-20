@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field, EmailStr, BeforeValidator
-from typing import Annotated
+from typing import Annotated, Optional
 from bson import ObjectId
+
+from models.game import Track
 
 
 PyObjectId = Annotated[str, BeforeValidator(str)]
@@ -22,6 +24,14 @@ class UserIn(UserBase):
 
 class UserOut(UserBase):
     id: PyObjectId = Field(alias="_id")
+
+
+class UserProfile(BaseModel):
+    username: Optional[str] = None
+    email: Optional[EmailStr] = None
+    bio: Optional[str] = None
+    avatar_url: Optional[str] = None
+    favorites: list[Track] = []
 
 
 class UserLogin(BaseModel):

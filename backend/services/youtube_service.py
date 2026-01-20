@@ -8,21 +8,22 @@ YOUTUBE_URL = "https://www.googleapis.com/youtube/v3/search"
 
 
 async def search_youtube(song_name):
-    client = httpx.AsyncClient()
-    print("api key: " + str(YOUTUBE_API_KEY))
-    response = await client.get(
-        YOUTUBE_URL,
-        params={
-            "q": song_name,
-            "key": str(YOUTUBE_API_KEY),
-            "part": "snippet",
-            "maxResults": 1,
-            "type": "video",
-        },
-    )
-    data = response.json()
-    if data and data["items"]:
-        print(data)
-        return data["items"][0]["id"]["videoId"]
-    else:
-        return None
+    async with httpx.AsyncClient(follow_redirects=True) as client:
+        try:
+            response = await client.get(
+                YOUTUBE_URL,
+                params={
+                    "q": song_name,
+                    "key": str(YOUTUBE_API_KEY),
+                    "part": "snippet",
+                    "maxResults": 1,
+                    "type": "video",
+                },
+            )
+            data = response.json()
+            if data and data["items"]:
+                return data["items"][0]["id"]["videoId"]
+        except Exception as e:
+            print(e)
+
+    return None

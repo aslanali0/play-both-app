@@ -12,12 +12,17 @@ async def register(user: UserCreate):
     new_user = await create_user(user)
     return new_user
 
+
 @router.post("/login")
 async def login(user: UserLogin):
     logged_in_user = await auth_user(email=user.email, password=user.password)
     if logged_in_user is not None:
         encoded_jwt = create_access_token(data={"sub": str(logged_in_user["email"])})
-        return {"username": logged_in_user["username"] ,"access_token": encoded_jwt, "token_type": "bearer"}
+        return {
+            "username": logged_in_user["username"],
+            "access_token": encoded_jwt,
+            "token_type": "bearer",
+        }
     else:
         return {"msg": "Failed to auth"}
 

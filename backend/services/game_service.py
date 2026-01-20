@@ -1,7 +1,6 @@
 from services.logic import aggregate_game_and_songs
 from .steam_service import search_game
-from app.database import game_collection, song_collection
-from .scraper_service import get_albums
+from app.database import game_collection
 
 
 async def get_game_and_songs(game_name: str):
@@ -16,11 +15,11 @@ async def get_game_and_songs(game_name: str):
         game = await aggregate_game_and_songs(game_name)
         if game:
             await game_collection.insert_one(game)
+
             game.pop("_id", None)
             return game
         else:
             return None
-    
+
     except Exception:
         return {"msg": "error occured"}
-

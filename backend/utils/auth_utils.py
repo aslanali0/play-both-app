@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 import os
-from jose import jwt
+from jose import jwt, exceptions
 from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
 
@@ -21,10 +21,17 @@ def create_access_token(data: dict):
 
 
 def decode_access_token(token: str):
-    decoded = jwt.decode(
-        token=token, key=os.getenv("SECRET_KEY"), algorithms=[os.getenv("ALGORITHM")]
-    )
-    return decoded.get("sub")
+    try:
+        decoded = jwt.decode(
+            token=token,
+            key=os.getenv("SECRET_KEY"),
+            algorithms=[os.getenv("ALGORITHM")],
+        )
+        return decoded.get("sub")
+    except exceptions.ExpiredSignatureError:
+        print("Token Expired.")
+    except exceptions.JWTError:
+        print("Invalid Token.")
 
 
 def hash_pwd(password: str):

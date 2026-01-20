@@ -15,6 +15,7 @@ async def search_game(game_name: str):
             "title": game.get("name"),
             "image_url": game.get("tiny_image"),
         }
+        print(game_dict)
         return game_dict
     else:
         print(f"No match for {game_name}")

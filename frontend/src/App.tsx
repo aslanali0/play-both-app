@@ -7,18 +7,20 @@ import HomePage from './pages/HomePage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from './components/NavBar.tsx'
+import ProfilePage from './pages/ProfilePage.tsx'
 
 function App() {
   return (
-    <div className="m-0 w-screen min-h-screen flex flex-col bg-slate-950 ">
+    <div className="text-white m-0 w-screen min-h-screen flex flex-col bg-slate-950 ">
       <BrowserRouter>
 
-          <Navbar/>
+        <Navbar />
         <Routes>
 
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path='/home' element={<ProtectedRoute><HomePage /></ProtectedRoute>}></Route>
+          <Route path='/profile' element={<ProtectedRoute><ProfilePage /></ProtectedRoute>}></Route>
         </Routes>
       </BrowserRouter>
     </div>)

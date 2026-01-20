@@ -1,8 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import game_routes, user_routes
+from routers import favorites_routes, game_routes, profile_routes, user_routes
 
+import logging
 
+# Log formatını dosya ve satır numarasını gösterecek şekilde güncelle
+logging.basicConfig(
+    level=logging.INFO, format="%(levelname)s: %(pathname)s:%(lineno)d - %(message)s"
+)
 app = FastAPI()
 
 origins = [
@@ -18,3 +23,5 @@ app.add_middleware(
 )
 app.include_router(game_routes.router, prefix="/games", tags=["games"])
 app.include_router(user_routes.router, prefix="/users", tags=["users"])
+app.include_router(profile_routes.router, prefix="/profile", tags=["profiles"])
+app.include_router(favorites_routes.router, prefix="/favorites", tags=["favorites"])
