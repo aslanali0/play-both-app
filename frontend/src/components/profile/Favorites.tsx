@@ -19,7 +19,6 @@ const Favorites = () => {
 
         setFavorites(response.data)
         setLoading(false)
-        console.log(favorites)
       }
       catch (error) {
         console.log(error)
@@ -33,14 +32,14 @@ const Favorites = () => {
       <span className="items-center text-center font-bold text-indigo-500">
         Favorites
       </span>
-      {!loading ? (
+      {!loading ? (favorites ? (
         favorites.map((fav) => (
           <div
             key={fav.song_youtube_url}
             className="flex items-center justify-between p-4 hover:border-neon-cyan transition-all duration-300"
           >
             <div className="flex flex-col overflow-hidden">
-              <a href={`https://www.youtube.com/embed/${fav.song_youtube_url}`} target="_blank" className="text-white font-bold truncate group-hover:text-indigo-300 transition-colors">
+              <a href={`https://www.youtube.com/watch?v=${fav.song_youtube_url}`} target="_blank" className="text-white font-bold truncate hover:text-indigo-300 transition-colors">
                 {fav.song_title}
               </a>
               <span className="text-gray-400 text-[10px] uppercase tracking-tighter font-mono italic">
@@ -48,7 +47,7 @@ const Favorites = () => {
               </span>
             </div>
           </div>
-        ))
+        ))) : <span className="text-center p-4">No favorites yet...</span>
       ) : (
         <div>Loading...</div>
       )}

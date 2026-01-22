@@ -1,20 +1,24 @@
 import { useState } from "react"
 import axios from 'axios'
 import type { User } from "../../types/user"
+import { useAuth } from "../../context/AuthContext"
 
-const ProfileInfo = ({ user }: { user: User }) => {
-  const [bio, setBio] = useState(user.bio)
-  const [avatar, setAvatar] = useState(user.avatar_url)
+const ProfileInfo = () => {
+  const { user, loading } = useAuth()
+  const [bio, setBio] = useState(user?.profile?.bio)
+  const [avatar, setAvatar] = useState(user?.profile?.avatar_url)
   const [isEditing, setIsEditing] = useState(false)
-  const defaultAvatar = user.username?.charAt(0).toUpperCase() || " ?";
+  const defaultAvatar = user?.username?.charAt(0).toUpperCase() || " ?";
   const handleUpdate = async (e: React.FormEvent<HTMLInputElement>) => {
 
 
     try {
       const response = await axios.post("http://localhost:8000/profile/update",
         {
+
           bio: bio,
           avatar_url: avatar,
+
         },
         {
           params: {
@@ -23,7 +27,6 @@ const ProfileInfo = ({ user }: { user: User }) => {
           }
         })
       const new_profile = response.data;
-      console.log(new_profile)
     }
     catch (error) {
       console.log("update profile error: " + error)
@@ -63,11 +66,11 @@ const ProfileInfo = ({ user }: { user: User }) => {
             value="Update"
           />
         </form>
-      ) : (
+      ) : (!loading ? (
         <div className="flex flex-col items-center gap-4">
-          {user.avatar_url ? (
+          {avatar ? (
             <img
-              src={user.avatar_url}
+              src={avatar}
               className="w-24 h-24 rounded-full object-cover border-2 border-indigo-500 shadow-md"
               alt="Profile"
             />
@@ -79,10 +82,11 @@ const ProfileInfo = ({ user }: { user: User }) => {
 
           <div className="text-center">
             <p className="text-gray-300 font-light">
-              <span className="font-bold text-indigo-600">Bio:</span> {user.bio || "Welcome to my profile!"}
+              <span className="font-bold text-indigo-600">Bio:</span> {bio || "Welcome to my profile!"}
             </p>
           </div>
-        </div>
+        </div>) :
+        <span>Loading...</span>
       )
       }
 

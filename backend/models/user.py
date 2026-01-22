@@ -14,24 +14,27 @@ class UserBase(BaseModel):
     model_config = {"populate_by_name": True, "from_attributes": True}
 
 
-class UserCreate(UserBase):
-    password: str = Field(..., min_length=8, max_length=50)
-
-
-class UserIn(UserBase):
-    hashed_password: str
-
-
 class UserOut(UserBase):
     id: PyObjectId = Field(alias="_id")
+
+
+class Profile(BaseModel):
+    bio: Optional[str] = ""
+    avatar_url: Optional[str] = ""
 
 
 class UserProfile(BaseModel):
     username: Optional[str] = None
     email: Optional[EmailStr] = None
-    bio: Optional[str] = None
-    avatar_url: Optional[str] = None
-    favorites: list[Track] = []
+    profile: Profile = Profile()
+
+
+class UserIn(UserProfile):
+    hashed_password: str
+
+
+class UserCreate(UserProfile):
+    password: str = Field(..., min_length=8, max_length=50)
 
 
 class UserLogin(BaseModel):
