@@ -29,3 +29,23 @@ async def get_favorites_service(email: EmailStr):
         return favorites
     else:
         return None
+
+async def remove_favorite_service(favorite_data: FavoriteIn):
+    existing_favorite = await favorite_collection.find_one(
+        {
+            "user_email": favorite_data.user_email,
+            "song_youtube_url": favorite_data.song_youtube_url,
+        }
+    )
+    if not existing_favorite:
+        return {"msg": "favorite does not exist"}
+
+    deleted_favorite = await favorite_collection.delete_one(
+        {
+            "user_email": favorite_data.user_email,
+            "song_youtube_url": favorite_data.song_youtube_url,
+        }
+    )
+
+    if deleted_favorite.deleted_count == 1:
+        return {"msg": "unfavorited complete"}

@@ -26,7 +26,6 @@ const LoginPage = () => {
 
       const token = response.data.access_token;
       localStorage.setItem('token', token);
-      console.log(response.data + " Successfully loged in");
       await refreshUser()
       navigate('/home');
     }

@@ -29,7 +29,7 @@ const ProfilePage = () => {
     handleProfile();
   }, [])
   return (
-    <div className="min-h-screen w-full flex pt-20 justify-center  p-4">
+    <div className="min-h-screen box-border w-full  pt-20 justify-center p-4">
       {!loading ? (<div>
         <ProfileInfo user={user} />
         <Favorites /></div>

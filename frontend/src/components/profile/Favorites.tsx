@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import type { Favorite } from "../../types/content";
 
 
 const Favorites = () => {
 
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const handleFavorites = async () => {
+const handleFavorites = async () => {
 
       try {
         const response = await axios.get("http://localhost:8000/favorites/my", {
@@ -25,6 +25,31 @@ const Favorites = () => {
       }
 
     }
+  const handleRemoveFavorite = async (fav: Favorite) => {
+
+    try {
+      await axios.post("http://localhost:8000/favorites/remove", 
+      {
+        game_steam_id: fav.game_steam_id,
+        game_title: fav.game_title,
+        song_title: fav.song_title,
+        song_youtube_url: fav.song_youtube_url
+      },
+      {
+        params: {
+          token: localStorage.getItem("token")
+        }
+      })}
+      catch (error) {
+        console.log("Remove favorite error: " + error)
+      }
+      // Refresh favorites list after removal
+      handleFavorites()
+    }
+  
+
+  useEffect(() => {
+    
     handleFavorites()
   }, [])
   return (
@@ -33,9 +58,9 @@ const Favorites = () => {
         Favorites
       </span>
       {!loading ? (favorites ? (
-        favorites.map((fav) => (
+        favorites.map((fav: Favorite) => (
           <div
-            key={fav.song_youtube_url}
+            key={fav.song_youtube_url} 
             className="flex items-center justify-between p-4 hover:border-neon-cyan transition-all duration-300"
           >
             <div className="flex flex-col overflow-hidden">
@@ -45,6 +70,7 @@ const Favorites = () => {
               <span className="text-gray-400 text-[10px] uppercase tracking-tighter font-mono italic">
                 {fav.game_title}
               </span>
+              <input className="text-gray-400 text-[10px] uppercase tracking-tighter font-mono italic" type="button" value={"Remove"} onClick={async () => {await handleRemoveFavorite(fav)}} />
             </div>
           </div>
         ))) : <span className="text-center p-4">No favorites yet...</span>

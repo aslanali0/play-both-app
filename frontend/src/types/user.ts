@@ -5,9 +5,8 @@ export type UserRole = 'ADMIN' | 'USER';
 export interface User extends BaseEntity {
   username: string,
   email: string,
-  bio: string;
-  avatar_url: string,
-  favorites: []
+  profile: UserProfile | null,
+  
 }
 
 export interface AuthContext {
@@ -15,5 +14,10 @@ export interface AuthContext {
   setUser: (user: User | null) => void;
   loading: boolean;
   refreshUser: () => Promise<void>;
-  logout: () => void;
+  handleLogout: () => void;
+}
+
+export interface UserProfile extends BaseEntity {
+  bio: string;
+  avatar_url: string;
 }

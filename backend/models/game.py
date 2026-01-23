@@ -24,4 +24,4 @@ class FavoriteBase(BaseModel):
 
 class FavoriteIn(FavoriteBase):
     user_email: EmailStr
-    created_at: datetime
+    created_at: Optional[datetime] = None 
