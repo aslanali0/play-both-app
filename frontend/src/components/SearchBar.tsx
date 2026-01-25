@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import type { Game } from '../types/content';
+import api from '../api/api';
 
 const SearchBar = ({ onGameFound }) => {
 
@@ -15,7 +16,7 @@ const SearchBar = ({ onGameFound }) => {
 
     try {
       console.log(search)
-      const response = await axios.get("http://localhost:8000/games/search", {
+      const response = await api.get("/games/search", {
         params: {
           game_name: search
         }

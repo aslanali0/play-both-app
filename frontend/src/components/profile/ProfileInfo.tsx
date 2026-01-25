@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../../api/api"
 import type { User } from "../../types/user";
 import { useAuth } from "../../context/AuthContext";
 
@@ -11,8 +11,8 @@ const ProfileInfo = () => {
   const defaultAvatar = user?.username?.charAt(0).toUpperCase() || " ?";
   const handleUpdate = async (e: React.FormEvent<HTMLInputElement>) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/profile/update",
+      const response = await api.post(
+        "/profile/update",
         {
           bio: bio,
           avatar_url: avatar,

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import type { User, AuthContext } from '../types/user.ts';
+import api from '../api/api.ts';
 
 const AuthContext = createContext<AuthContext | null>(null);
 
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     try {
-      const res = await axios.get("http://localhost:8000/auth/me", {
+      const res = await api.get("/auth/me", {
         params: { token }
       });
       setUser(res.data);

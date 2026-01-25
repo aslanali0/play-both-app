@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import api from '../api/api'
 
 
 const LoginPage = () => {
@@ -22,7 +22,7 @@ const LoginPage = () => {
       "password": password
     }
     try {
-      const response = await axios.post("http://localhost:8000/users/login", userData);
+      const response = await api.post("/users/login", userData);
 
       const token = response.data.access_token;
       localStorage.setItem('token', token);

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
+import api from '../api/api';
 
 
 const SignUpPage = () => {
@@ -20,7 +20,7 @@ const SignUpPage = () => {
       "password": password
     }
     try {
-      const response = await axios.post("http://localhost:8000/users/register", userData);
+      const response = await api.post("/users/register", userData);
 
       console.log(response.data + " Successfully registered");
       navigate("/login")

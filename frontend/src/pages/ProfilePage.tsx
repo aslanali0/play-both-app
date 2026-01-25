@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import ProfileInfo from "../components/profile/ProfileInfo"
 import type { User } from "../types/user"
 import Favorites from "../components/profile/Favorites"
+import api from "../api/api"
 
 const ProfilePage = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -12,7 +13,7 @@ const ProfilePage = () => {
     const handleProfile = async () => {
       try {
         const token = localStorage.getItem("token")
-        const response = await axios.get<User>("http://localhost:8000/profile/me", {
+        const response = await api.get<User>("/profile/me", {
           params: {
             token: token
           }
@@ -31,7 +32,7 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen box-border w-full  pt-20 justify-center p-4">
       {!loading ? (<div>
-        <ProfileInfo user={user} />
+        <ProfileInfo />
         <Favorites /></div>
       ) : <div>Loading...</div>
       }

@@ -6,9 +6,7 @@ import type { Game, Song } from '../types/content.ts'
 const HomePage = () => {
 
 
-  const username = localStorage.getItem('username');
   const [game, setGame] = useState<Game | null>(null)
-  const [search, setSearch] = useState('');
 
 
   return (
