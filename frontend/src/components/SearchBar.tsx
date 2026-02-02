@@ -3,6 +3,8 @@ import { useState } from 'react'
 import type { Game } from '../types/content';
 import api from '../api/api';
 
+const API_URL = '/games'
+
 const SearchBar = ({ onGameFound }) => {
 
 
@@ -16,7 +18,7 @@ const SearchBar = ({ onGameFound }) => {
 
     try {
       console.log(search)
-      const response = await api.get("/games/search", {
+      const response = await api.get(`${API_URL}/search`, {
         params: {
           game_name: search
         }

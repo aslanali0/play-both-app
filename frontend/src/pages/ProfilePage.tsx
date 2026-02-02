@@ -5,6 +5,8 @@ import type { User } from "../types/user"
 import Favorites from "../components/profile/Favorites"
 import api from "../api/api"
 
+const API_URL = '/profile'
+
 const ProfilePage = () => {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
@@ -13,7 +15,7 @@ const ProfilePage = () => {
     const handleProfile = async () => {
       try {
         const token = localStorage.getItem("token")
-        const response = await api.get<User>("/profile/me", {
+        const response = await api.get<User>(`${API_URL}/me`, {
           params: {
             token: token
           }

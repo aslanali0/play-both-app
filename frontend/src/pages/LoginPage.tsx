@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import api from '../api/api'
-
+import type { LoginRequest } from '../types/Auth'
+const API_URL = '/users'
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -12,17 +13,16 @@ const LoginPage = () => {
 
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-
+ 
 
     e.preventDefault();
 
 
-    const userData = {
-      "email": email,
-      "password": password
-    }
+    const request : LoginRequest = {
+      email: email,
+      password: password}
     try {
-      const response = await api.post("/users/login", userData);
+      const response = await api.post(`${API_URL}/login`, request);
 
       const token = response.data.access_token;
       localStorage.setItem('token', token);

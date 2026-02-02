@@ -1,7 +1,8 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import type { Favorite } from "../../types/content";
+import api from "../../api/api";
 
+const API_URL = '/favorites'
 
 const Favorites = () => {
 
@@ -11,11 +12,7 @@ const Favorites = () => {
 const handleFavorites = async () => {
 
       try {
-        const response = await axios.get("http://localhost:8000/favorites/my", {
-          params: {
-            token: localStorage.getItem("token")
-          }
-        })
+        const response = await api.get(`${API_URL}/my`)
 
         setFavorites(response.data)
         setLoading(false)
@@ -28,17 +25,12 @@ const handleFavorites = async () => {
   const handleRemoveFavorite = async (fav: Favorite) => {
 
     try {
-      await axios.post("http://localhost:8000/favorites/remove", 
+      await api.post(`${API_URL}/remove`, 
       {
         game_steam_id: fav.game_steam_id,
         game_title: fav.game_title,
         song_title: fav.song_title,
         song_youtube_url: fav.song_youtube_url
-      },
-      {
-        params: {
-          token: localStorage.getItem("token")
-        }
       })}
       catch (error) {
         console.log("Remove favorite error: " + error)
@@ -64,13 +56,18 @@ const handleFavorites = async () => {
             className="flex items-center justify-between p-4 hover:border-neon-cyan transition-all duration-300"
           >
             <div className="flex flex-col overflow-hidden">
+             <div> 
               <a href={`https://www.youtube.com/watch?v=${fav.song_youtube_url}`} target="_blank" className="text-white font-bold truncate hover:text-indigo-300 transition-colors">
                 {fav.song_title}
               </a>
+              <input className="ml-2 text-gray-400 text-[10px] hover:bg-gray-600 transition-all bg-gray-900 w-15 rounded uppercase tracking-tighter font-mono italic" type="button" value={"Remove"} onClick={async () => {await handleRemoveFavorite(fav)}} />
+              </div>
               <span className="text-gray-400 text-[10px] uppercase tracking-tighter font-mono italic">
                 {fav.game_title}
+
+
               </span>
-              <input className="text-gray-400 text-[10px] uppercase tracking-tighter font-mono italic" type="button" value={"Remove"} onClick={async () => {await handleRemoveFavorite(fav)}} />
+
             </div>
           </div>
         ))) : <span className="text-center p-4">No favorites yet...</span>

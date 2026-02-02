@@ -3,6 +3,8 @@ import api from "../../api/api"
 import type { User } from "../../types/user";
 import { useAuth } from "../../context/AuthContext";
 
+const API_URL = '/profile'
+
 const ProfileInfo = () => {
   const { user, loading } = useAuth();
   const [bio, setBio] = useState(user?.profile?.bio);
@@ -12,7 +14,7 @@ const ProfileInfo = () => {
   const handleUpdate = async (e: React.FormEvent<HTMLInputElement>) => {
     try {
       const response = await api.post(
-        "/profile/update",
+        `${API_URL}/update`,
         {
           bio: bio,
           avatar_url: avatar,
@@ -23,7 +25,8 @@ const ProfileInfo = () => {
           },
         },
       );
-      const new_profile = response.data;
+      return response.data;
+
     } catch (error) {
       console.log("update profile error: " + error);
     }

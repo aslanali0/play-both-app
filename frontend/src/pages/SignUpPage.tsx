@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../api/api';
-
+import type { RegisterRequest } from '../types/Auth';
+const API_URL = '/users'
 
 const SignUpPage = () => {
   const [username, setUsername] = useState('');
@@ -14,13 +15,14 @@ const SignUpPage = () => {
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    const userData = {
-      "username": username,
-      "email": email,
-      "password": password
+    const request : RegisterRequest = {
+      username: username,
+      email: email,
+      password: password
     }
+
     try {
-      const response = await api.post("/users/register", userData);
+      const response = await api.post(`${API_URL}/register`, request);
 
       console.log(response.data + " Successfully registered");
       navigate("/login")

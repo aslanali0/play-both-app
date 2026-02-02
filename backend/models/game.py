@@ -4,15 +4,22 @@ from pydantic import BaseModel, EmailStr
 
 
 class Track(BaseModel):
+    game_title: str
+    game_steam_id: str
     title: str
+    album_title: Optional[str] = ""
     youtube_url: Optional[str] = None
+
+class Album(BaseModel):
+    album_title: str
+    song_list: list[Track]
 
 
 class Game(BaseModel):
     steam_id: str
     title: str
     image_url: str
-    soundtrack: list[Track]
+    soundtrack: Optional[list[Album]] = None
 
 
 class FavoriteBase(BaseModel):
