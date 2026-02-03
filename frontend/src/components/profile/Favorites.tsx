@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Favorite } from "../../types/content";
 import api from "../../api/api";
+import { useAuth } from "../../context/AuthContext";
 
 const API_URL = '/favorites'
 
@@ -8,11 +9,15 @@ const Favorites = () => {
 
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const user = useAuth()
 const handleFavorites = async () => {
 
       try {
-        const response = await api.get(`${API_URL}/my`)
+        const response = await api.get(`${API_URL}/my`,{
+        params: {
+          'username': user?.user?.username
+        }
+      })
 
         setFavorites(response.data)
         setLoading(false)
@@ -31,7 +36,12 @@ const handleFavorites = async () => {
         game_title: fav.game_title,
         song_title: fav.song_title,
         song_youtube_url: fav.song_youtube_url
-      })}
+      },{
+          params: {
+            'username': user?.user?.username
+          }
+        }
+      )}
       catch (error) {
         console.log("Remove favorite error: " + error)
       }

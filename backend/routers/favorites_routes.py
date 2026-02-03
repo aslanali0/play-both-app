@@ -11,23 +11,32 @@ router = APIRouter()
 
 
 @router.post("/add")
-async def add_favorite(favorite_data: FavoriteBase, token: str):
+async def add_favorite(favorite_data: FavoriteBase, token: str, username: str):
     email = decode_access_token(token)
-    fav_in = FavoriteIn(
-        **favorite_data.model_dump(), user_email=email, created_at=datetime.now()
-    )
-    return await add_favorite_service(fav_in)
+    if email:
+        fav_in = FavoriteIn(
+            **favorite_data.model_dump(), username=username, created_at=datetime.now()
+        )
+        return await add_favorite_service(fav_in)
+    else:
+        return {'msg': 'Authentication failed, favorite not added'}
 
 
 @router.get("/my")
-async def get_favorites(token: str):
+async def get_favorites(username: str, token: str):
     email = decode_access_token(token)
-    return await get_favorites_service(email)
+    if email:
+        return await get_favorites_service(username)
+    else:
+        return {'msg': 'Authentication failed'}
 
 @router.post("/remove")
-async def remove_favorite(favorite_data: FavoriteBase, token: str):
+async def remove_favorite(favorite_data: FavoriteBase, token: str, username: str):
     email = decode_access_token(token)
-    fav_in = FavoriteIn(
-        **favorite_data.model_dump(), user_email=email
-    )
-    return await remove_favorite_service(fav_in)
+    if email:
+        fav_in = FavoriteIn(
+            **favorite_data.model_dump(), username=username
+        )
+        return await remove_favorite_service(fav_in)
+    else:
+        return {'msg': 'Authentication failed, favorite not removed'}

@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import type { Song } from "../types/content";
 import api from "../api/api";
+import { useAuth } from "../context/AuthContext";
 
 // To determine if song is already added favorites or not
 const API_URL = '/favorites'
 
 const SongCard = ({songData, favList}: {songData: Song | null, favList : any}) => {
   const [isFavorited, setIsFavorited] = useState(false)
+  const user = useAuth()
   
   useEffect(() => {
-    const found = favList.some(f => f.song_youtube_url == songData?.youtube_url)
-    setIsFavorited(found)
+    if (favList){
+      const found = favList.some(f => f.song_youtube_url == songData?.youtube_url)
+      setIsFavorited(found)
+    }
   }, [favList, songData])
 
   const handleFavorite = async () => {
@@ -21,7 +25,11 @@ const SongCard = ({songData, favList}: {songData: Song | null, favList : any}) =
           game_title: songData?.game_title,
           song_title: songData?.title,
           song_youtube_url: songData?.youtube_url || "url_not_found"
-      })
+      },{
+          params : {
+            'username': user?.user?.username 
+          }
+        })
       setIsFavorited(true)
       return response.data
     }

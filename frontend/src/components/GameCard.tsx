@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Game, Song, Album } from '../types/content.ts';
 import api from '../api/api.ts';
 import SongCard from './SongCard.tsx'
+import { useAuth } from '../context/AuthContext.tsx';
 const FAVORITE_API_URL = '/favorites'
 const SONG_API_URL = '/songs'
 const GameCard = ({ gameData }: { gameData: Game | null }) => {
@@ -9,6 +10,7 @@ const GameCard = ({ gameData }: { gameData: Game | null }) => {
   const [favList, setFavList] = useState<any[]>([]);
   const [processedData, setProcessedData] = useState<Song[] | null>(null);
   const [pageCounter, setPageCounter] = useState(0)
+  const user = useAuth()
 
   const handleNextBackPage = (num: number) => {
     setPageCounter(pageCounter+num); 
@@ -24,7 +26,11 @@ const GameCard = ({ gameData }: { gameData: Game | null }) => {
   useEffect(() => {
     const handleAlreadyFavorited = async () => {
       try {
-        const response = await api.get(`${FAVORITE_API_URL}/my`)
+        const response = await api.get(`${FAVORITE_API_URL}/my`,{
+          params: {
+            'username': user?.user?.username
+          }
+        })
         setFavList(response.data)
       }
       catch(error){

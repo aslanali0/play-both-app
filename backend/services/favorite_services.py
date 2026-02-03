@@ -6,7 +6,7 @@ from models.game import FavoriteIn
 async def add_favorite_service(favorite_data: FavoriteIn):
     existing_favorite = await favorite_collection.find_one(
         {
-            "user_email": favorite_data.user_email,
+            "username": favorite_data.username,
             "song_youtube_url": favorite_data.song_youtube_url,
         }
     )
@@ -19,12 +19,12 @@ async def add_favorite_service(favorite_data: FavoriteIn):
         return {"msg": "favorited complete"}
 
 
-async def get_favorites_service(email: EmailStr):
+async def get_favorites_service(username: str):
     try:
-        cursor = favorite_collection.find({"user_email": email}, {"_id": 0})
+        cursor = favorite_collection.find({"username": username}, {"_id": 0})
         favorites = await cursor.to_list()
     except Exception as e:
-        return None
+        return {'msg': e}
     if favorites:
         return favorites
     else:
@@ -33,7 +33,7 @@ async def get_favorites_service(email: EmailStr):
 async def remove_favorite_service(favorite_data: FavoriteIn):
     existing_favorite = await favorite_collection.find_one(
         {
-            "user_email": favorite_data.user_email,
+            "username": favorite_data.username,
             "song_youtube_url": favorite_data.song_youtube_url,
         }
     )
@@ -42,7 +42,7 @@ async def remove_favorite_service(favorite_data: FavoriteIn):
 
     deleted_favorite = await favorite_collection.delete_one(
         {
-            "user_email": favorite_data.user_email,
+            "username": favorite_data.username,
             "song_youtube_url": favorite_data.song_youtube_url,
         }
     )

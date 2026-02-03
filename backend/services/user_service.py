@@ -5,8 +5,11 @@ from utils.auth_utils import hash_pwd, verify_pwd
 
 
 async def create_user(user: UserCreate):
+    existing_user = await user_collection.find_one({"username": user.username})
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Please choose a different username")
     existing_user = await user_collection.find_one({"email": user.email})
-    if existing_user != None:
+    if existing_user:
         raise HTTPException(status_code=400, detail="Email address already in use")
     user_dict = user.model_dump()
     plain_pwd = user_dict.get("password")
