@@ -16,6 +16,7 @@ A web platform for discovering video games and their soundtracks. Search games v
 - 🎵 **Soundtrack Discovery** - YouTube integration for game music
 - ⭐ **Favorites** - Save games and songs
 - 👤 **User Profiles** - Customizable avatar and bio
+- 👥 **Friendship System** - Send/accept friend requests and manage connections
 - 🔐 **JWT Authentication** - Secure login with bcrypt password hashing
 - 🎨 **Modern UI** - Neon-themed design with Tailwind CSS
 
@@ -41,6 +42,9 @@ A web platform for discovering video games and their soundtracks. Search games v
 git clone https://github.com/aslanali0/play-both-app.git
 cd play-both-app
 
+# Install dependencies (using makefile)
+make install
+
 # Backend setup
 cd backend
 python -m venv .venv
@@ -53,17 +57,22 @@ pip install -r requirements.txt
 # STEAM_API_KEY=your-steam-api-key
 
 # Start backend
-uvicorn app.main:app --reload --port 8000
+make api
+# Or: uvicorn app.main:app --reload --port 8000
 
 # Frontend setup (in new terminal)
-cd frontend
-npm install
-npm run dev
+make web
+# Or: cd frontend && npm run dev
 ```
 
 **Access the app:**
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:8000
+
+**Available makefile commands:**
+- `make install` - Install all dependencies
+- `make api` - Start backend server
+- `make web` - Start frontend dev server
 
 ---
 
@@ -110,6 +119,11 @@ play-both-app/
 | GET | `/favorites/my?token={token}` | List favorites |
 | POST | `/favorites/add` | Add favorite |
 | POST | `/favorites/remove` | Remove favorite |
+| **Friendship** |
+| POST | `/friendship/add` | Send friend request |
+| POST | `/friendship/respond` | Accept/ignore friend request |
+| GET | `/friendship/status?sender={user}&receiver={user}` | Get friendship status |
+| GET | `/friendship/requests?receiver={user}` | Get pending friend requests |
 
 ---
 
