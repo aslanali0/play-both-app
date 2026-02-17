@@ -30,7 +30,7 @@ A web platform for discovering video games and their soundtracks. Search games v
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Installation
 
 ### Prerequisites
 - Node.js 18+ • Python 3.9+ • MongoDB
