@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import (
     auth_routes,
     favorites_routes,
+    friendship_routes,
     game_routes,
     profile_routes,
     user_routes,
@@ -33,3 +34,4 @@ app.include_router(profile_routes.router, prefix="/profile", tags=["profiles"])
 app.include_router(favorites_routes.router, prefix="/favorites", tags=["favorites"])
 app.include_router(auth_routes.router, prefix="/auth", tags=["auth"])
 app.include_router(song_routes.router, prefix="/songs", tags=["songs"])
+app.include_router(friendship_routes.router, prefix="/friendship", tags=["friendships"])

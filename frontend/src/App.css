@@ -6,6 +6,11 @@
   --color-neon-cyan: #22d3ee;
   --color-neon-purple: #a855f7;
   --shadow-neon: 0 0 15px var(--color-neon-cyan);
+  --animate-slide-up: slideUp 0.5s ease-out;
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 }
 
 

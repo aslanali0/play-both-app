@@ -12,3 +12,8 @@ api:
 
 web:
 	cd frontend && npm run dev
+
+
+install:
+	cd frontend && npm install
+	cd backend && python -m venv .venv && $(VENV)/bin/pip install -r requirements.txt

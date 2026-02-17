@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import type { User, AuthContext } from '../types/user.ts';
+import type { User, AuthContext, UserProfile } from '../types/user.ts';
 import api from '../api/api.ts';
 
 const AuthContext = createContext<AuthContext | null>(null);
@@ -7,7 +7,7 @@ const AuthContext = createContext<AuthContext | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const refreshUser = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -20,11 +20,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await api.get("/auth/me", {
         params: { token }
       });
-      setUser(res.data);
+      const userData = res.data
+      setUser(userData);
+      if(userData?.username){
+         const response = await api.get("/profile/me", {
+            params:{
+              username : userData?.username
+            },
+          },)
+          setProfile(response.data)
+      }
     } catch (err) {
       console.error("Auth error:", err);
       localStorage.removeItem("token");
       setUser(null);
+      setProfile(null);
     } finally {
       setLoading(false);
     }
@@ -41,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, refreshUser, handleLogout }}>
+    <AuthContext.Provider value={{ user, setUser, profile, loading, refreshUser, handleLogout }}>
       {!loading ? children : null}
     </AuthContext.Provider>
   );

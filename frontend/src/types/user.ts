@@ -6,7 +6,7 @@ export interface User extends BaseEntity {
   username: string,
   email: string,
   profile: UserProfile | null,
-  
+
 }
 
 export interface AuthContext {
@@ -18,6 +18,12 @@ export interface AuthContext {
 }
 
 export interface UserProfile extends BaseEntity {
+  username: string
   bio: string;
   avatar_url: string;
+}
+
+export interface FriendshipRequest {
+  sender: string,
+  receiver: string
 }

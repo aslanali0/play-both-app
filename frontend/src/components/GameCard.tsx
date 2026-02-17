@@ -9,12 +9,13 @@ const GameCard = ({ gameData }: { gameData: Game | null }) => {
 
   const [favList, setFavList] = useState<any[]>([]);
   const [processedData, setProcessedData] = useState<Song[] | null>(null);
-  const [pageCounter, setPageCounter] = useState(0)
+  const [pageCounter, setPageCounter] = useState(0);
+  const [loading, setLoading] = useState(true);
   const user = useAuth()
 
   const handleNextBackPage = (num: number) => {
     setPageCounter(pageCounter+num); 
-    window.scrollTo({top:0})
+    window.scrollTo({top:0, behavior: 'smooth'})
   }
   const formatData = (rawData : Song[] | null) => {
     return rawData?.map(item => ({
@@ -46,24 +47,33 @@ const GameCard = ({ gameData }: { gameData: Game | null }) => {
           }
         })
         setProcessedData(formatData(response.data));
+
       }
       catch(error){
       console.log(error);
       }
     }
     handleSongs();
-
     handleAlreadyFavorited();
   }, [gameData]);
     
-  return (<div className='text-white relative group w-full max-w-6xl mx-auto mt-10'>
+  return (<div className='text-white relative animate-slide-up transition-all group w-full max-w-6xl mx-auto mt-10'>
 
-    <div className='w-full'>{gameData ? (
-      <div className="home-element p-10 w-full mx-auto mt-12 transition-all "><h1 className="text-6xl font-black uppercase mb-10">{gameData.title}</h1>
+      {!gameData &&(
+      <button disabled>
+     <svg className="animate-spin"></svg>
+        Loading..
+     </button>)}
+
+    <div key={gameData?.steam_id} className='w-full'>{gameData ? (
+      <div className="home-element p-10 w-full animate-slide-up mx-auto mt-12 transition-all "><h1 className="text-6xl font-black uppercase mb-10">{gameData.title}</h1>
         <img className="w-75 card m-4 rounded" src={gameData.image_url || ""} />
-        <ul className="w-full flex flex-col gap-6 p-4">
+        <ul key={pageCounter} className="w-full flex flex-col gap-6 p-4">
           {processedData?.slice(pageCounter*10,(pageCounter+1)*10).map((item) => ( item ? (
-          <SongCard key={item.youtube_url || `https://www.youtube.com/results?search_query=${item.title}`} songData={item} favList={favList}/>
+          <div className='animate-slide-up'>
+              <SongCard key={item.youtube_url || `https://www.youtube.com/results?search_query=${item.title}`} songData={item} favList={favList}/>
+
+            </div>
           ):null))}
         </ul>
         <div className='text-center'>
@@ -76,9 +86,7 @@ const GameCard = ({ gameData }: { gameData: Game | null }) => {
           
         </div>
 
-      </div>) :
-    null
-    }
+      </div>) :    null }
     </div>
   
   </div >)

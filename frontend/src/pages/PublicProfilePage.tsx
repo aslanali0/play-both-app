@@ -15,7 +15,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const handleProfile = async () => {
       try {
-        const response = await api.get<User>(`${API_URL}/me`, {
+        const response = await api.get<User>(`${API_URL}/user`, {
 
           params: {
           username: user?.username
@@ -30,13 +30,13 @@ const ProfilePage = () => {
       }
     }
     handleProfile();
-  }, [user?.username])
+  }, [])
   return (
-    <div className="min-h-screen box-border flex w-full pt-20 justify-center p-4">
+    <div className="min-h-screen box-border w-full  pt-20 justify-center p-4">
       {!loading ? (<div>
-        <ProfileInfo isPublic={false} profile={profile}/>
-        <Favorites isPublic={false}/></div>
-      ) : <div className="animate-pulse">Loading...</div>
+        <ProfileInfo isPublic={true} profile={profile}/>
+        <Favorites isPublic={true}/></div>
+      ) : <div>Loading...</div>
       }
     </div>
   )

@@ -7,13 +7,13 @@ const HomePage = () => {
 
 
   const [game, setGame] = useState<Game | null>(null)
-
+  const [loading, setLoading] = useState(true)
 
   return (
     <main>
-      <div>
+      <div className='flex items-center flex-col w-full'>
         <SearchBar onGameFound={setGame} />
-        {game && <GameCard gameData={game} />}
+        { game && <GameCard key={game.steam_id} gameData={game} />}
       </div>
 
     </main>)

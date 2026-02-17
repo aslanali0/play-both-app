@@ -1,21 +1,24 @@
 import { useState } from "react";
 import api from "../../api/api"
-import type { User } from "../../types/user";
+import type { UserProfile } from "../../types/user";
 import { useAuth } from "../../context/AuthContext";
+import FriendRequestButton from "./FriendRequestButton";
 
 const API_URL = '/profile'
 
-const ProfileInfo = () => {
+const ProfileInfo = ({ profile, isPublic }: { profile: UserProfile, isPublic: boolean }) => {
   const { user, loading } = useAuth();
-  const [bio, setBio] = useState(user?.profile?.bio);
-  const [avatar, setAvatar] = useState(user?.profile?.avatar_url);
+  const [bio, setBio] = useState(profile?.bio);
+  const [avatar, setAvatar] = useState(profile?.avatar_url);
   const [isEditing, setIsEditing] = useState(false);
   const defaultAvatar = user?.username?.charAt(0).toUpperCase() || " ?";
   const handleUpdate = async (e: React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault()
     try {
       const response = await api.post(
         `${API_URL}/update`,
         {
+          username: user?.username,
           bio: bio,
           avatar_url: avatar,
         },
@@ -25,21 +28,25 @@ const ProfileInfo = () => {
           },
         },
       );
+      setIsEditing(false)
       return response.data;
 
     } catch (error) {
       console.log("update profile error: " + error);
     }
   };
-  return (
-    <div className="w-full home-element shadow-xl overflow-hidden transition-all hover:shadow-2xl p-4 rounded-t-2xl flex flex-col items-center">
-      <button
-        onClick={() => setIsEditing(true)}
-        className="mb-4 text-xs font-bold text-indigo-500 hover:text-indigo-700 cursor-pointer self-end"
-      >
-        Edit Profile
-      </button>
 
+  return (
+    <div className="w-3xl animate-slide-up home-element shadow-xl overflow-hidden transition-all hover:shadow-2xl p-4 rounded-t-2xl flex-col">
+      <div className="flex flex-col w-full font-bold text-right text-sm text-indigo-500 hover:text-indigo-700 cursor-pointer transition-all">{!isPublic ? (
+        <button
+          onClick={() => setIsEditing(true)}
+          className="self-end"
+        >
+          Edit Profile
+        </button>)
+        :
+        <FriendRequestButton sender={user?.username} receiver={profile.username} />}</div>
       {isEditing ? (
         <form onSubmit={handleUpdate} className="w-full flex flex-col items-center gap-4">
           <input
@@ -83,6 +90,9 @@ const ProfileInfo = () => {
               {defaultAvatar}
             </span>
           )}
+          <div>
+            {profile.username}
+          </div>
 
           <div className="text-center">
             <p className="text-gray-300 font-light">
@@ -92,8 +102,7 @@ const ProfileInfo = () => {
           </div>
         </div>
       ) : (
-        <span>Loading...</span>
-      )}
+        null)}
     </div>
   );
 };
