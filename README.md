@@ -1,6 +1,6 @@
 # 🎮 PlayBoth
 
-**PlayBoth** is a modern web platform where you can discover video games and their soundtracks together. Search for games, listen to their soundtracks, and save your favorites!
+A web platform for discovering video games and their soundtracks. Search games via Steam, listen to soundtracks, and save your favorites.
 
 ![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)
@@ -12,91 +12,67 @@
 
 ## ✨ Features
 
-- 🔍 **Game Search**: Search games via Steam and view detailed information
-- 🎵 **Soundtrack Discovery**: Listen to game soundtracks with YouTube integration
-- ⭐ **Favorites System**: Add your favorite games and songs to your collection
-- 👤 **User Profile**: Customizable profile
-- 🔐 **Secure Authentication**: JWT-based authentication system
-- 🎨 **Modern UI**: Neon-themed interface designed with Tailwind CSS
-- 📱 **Responsive Design**: Mobile and desktop compatible
+- 🔍 **Game Search** - Steam API integration with detailed game info
+- 🎵 **Soundtrack Discovery** - YouTube integration for game music
+- ⭐ **Favorites** - Save games and songs
+- 👤 **User Profiles** - Customizable avatar and bio
+- 👥 **Friendship System** - Send/accept friend requests and manage connections
+- 🔐 **JWT Authentication** - Secure login with bcrypt password hashing
+- 🎨 **Modern UI** - Neon-themed design with Tailwind CSS
 
 ---
 
 ## 🏗️ Tech Stack
 
-### Frontend
-- **React 19** - Modern React features
-- **TypeScript** - Type-safe development
-- **Vite** - Fast build tool and dev server
-- **React Router** - Client-side routing
-- **Tailwind CSS 4** - Utility-first CSS framework
-- **Axios** - HTTP client
+**Frontend:** React 19 • TypeScript • Vite • React Router • Tailwind CSS 4 • Axios
 
-### Backend
-- **FastAPI** - Modern, fast Python web framework
-- **MongoDB (Motor)** - Async database driver
-- **PyMongo** - MongoDB integration
-- **BeautifulSoup4** - Web scraping
-- **Passlib & Python-JOSE** - Security and JWT
-- **Uvicorn** - ASGI server
+**Backend:** FastAPI • MongoDB (Motor) • BeautifulSoup4 • Passlib • Python-JOSE • Uvicorn
 
 ---
 
 ## 🚀 Installation
 
 ### Prerequisites
-- **Node.js** (v18+)
-- **Python** (3.9+)
-- **MongoDB** (local or cloud)
+- Node.js 18+ • Python 3.9+ • MongoDB
 
-### 1. Clone the Repository
+### Setup
+
 ```bash
+# Clone repository
 git clone https://github.com/aslanali0/play-both-app.git
 cd play-both-app
-```
 
-### 2. Backend Setup
+# Install dependencies (using makefile)
+make install
 
-```bash
+# Backend setup
 cd backend
-
-# Create virtual environment
 python -m venv .venv
-
-# Activate virtual environment
-# Windows
-.venv\Scripts\activate
-# macOS/Linux
-source .venv/bin/activate
-
-# Install dependencies
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-# Create .env file (example)
-# Set required environment variables:
+# Configure environment (.env file)
 # MONGODB_URL=mongodb://localhost:27017
 # SECRET_KEY=your-secret-key
 # STEAM_API_KEY=your-steam-api-key
 
-# Start the server
-uvicorn app.main:app --reload --port 8000
+# Start backend
+make api
+# Or: uvicorn app.main:app --reload --port 8000
+
+# Frontend setup (in new terminal)
+make web
+# Or: cd frontend && npm run dev
 ```
 
-### 3. Frontend Setup
+**Access the app:**
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8000
 
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-The application will run at:
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:8000
+**Available makefile commands:**
+- `make install` - Install all dependencies
+- `make api` - Start backend server
+- `make web` - Start frontend dev server
 
 ---
 
@@ -106,117 +82,54 @@ The application will run at:
 play-both-app/
 ├── backend/
 │   ├── app/
-│   │   ├── main.py           # FastAPI main application
-│   │   ├── database.py       # MongoDB connection
-│   │   └── dependencies.py   # Auth middleware
-│   ├── models/               # Pydantic models
-│   ├── routers/              # API routes
-│   │   ├── auth_routes.py
-│   │   ├── game_routes.py
-│   │   ├── favorites_routes.py
-│   │   └── profile_routes.py
-│   ├── services/             # Business logic layer
-│   │   ├── game_service.py
-│   │   ├── steam_service.py
-│   │   ├── scraper_service.py
-│   │   └── youtube_service.py
-│   └── utils/                # Helper functions
-│
+│   │   ├── main.py          # FastAPI app
+│   │   ├── database.py      # MongoDB setup
+│   │   └── dependencies.py  # Auth middleware
+│   ├── models/              # Pydantic models
+│   ├── routers/             # API routes
+│   ├── services/            # Business logic
+│   └── utils/               # Helpers
 ├── frontend/
-│   ├── src/
-│   │   ├── api/              # API client
-│   │   ├── components/       # React components
-│   │   │   ├── NavBar.tsx
-│   │   │   ├── GameCard.tsx
-│   │   │   ├── SearchBar.tsx
-│   │   │   └── profile/
-│   │   ├── context/          # React Context (Auth)
-│   │   ├── pages/            # Page components
-│   │   │   ├── HomePage.tsx
-│   │   │   ├── LoginPage.tsx
-│   │   │   ├── SignUpPage.tsx
-│   │   │   └── ProfilePage.tsx
-│   │   ├── types/            # TypeScript types
-│   │   ├── App.tsx           # Main React component
-│   │   └── main.tsx          # Entry point
-│   └── vite.config.ts        # Vite configuration
-│
-└── README.md
+│   └── src/
+│       ├── api/             # API client
+│       ├── components/      # React components
+│       ├── context/         # Auth context
+│       ├── pages/           # Page components
+│       └── types/           # TypeScript types
+└── makefile                 # Quick commands
 ```
 
 ---
 
 ## 🔌 API Endpoints
 
-### 🎮 Games
-- `GET /games/search?game_name={name}` - Search for a game
-
-### 🔐 Authentication
-- `GET /auth/me?token={token}` - Authenticate current user
-
-### 👥 Users
-- `POST /users/register` - Register new user
-- `POST /users/login` - User login
-
-### 👤 Profile
-- `GET /profile/me?token={token}` - Get profile information
-- `PUT /profile/update` - Update profile
-
-### ⭐ Favorites
-- `GET /favorites/my?token={token}` - List favorites
-- `POST /favorites/add` - Add to favorites
-- `POST /favorites/remove` - Remove from favorites
-
----
-
-## 🎨 Main Dependencies
-
-### Frontend
-```json
-{
-  "react": "^19.2.0",
-  "react-router-dom": "^7.12.0",
-  "axios": "^1.13.2",
-  "@tailwindcss/vite": "^4.1.18"
-}
-```
-
-### Backend
-```txt
-fastapi==0.128.0
-motor==3.7.1
-pymongo==4.16.0
-passlib==1.7.4
-python-jose==3.5.0
-beautifulsoup4==4.14.3
-```
-
----
-
-## 🔒 Security
-
-- **JWT Token** based authentication
-- **Bcrypt** password hashing
-- **CORS** middleware for secure cross-origin requests
-- Protected routes with authentication guards
-
----
-
-## 🎯 Usage
-
-1. **Sign Up**: Create an account from the `/signup` page
-2. **Login**: Sign in with your credentials
-3. **Search Games**: Use the search bar on the home page to find games
-4. **Listen to Soundtracks**: Play game music via YouTube integration
-5. **Save Favorites**: Bookmark your favorite content
-6. **Manage Profile**: Update your avatar and bio
-
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| **Games** |
+| GET | `/games/search?game_name={name}` | Search for games |
+| **Authentication** |
+| GET | `/auth/me?token={token}` | Get current user |
+| **Users** |
+| POST | `/users/register` | Register new user |
+| POST | `/users/login` | Login |
+| **Profile** |
+| GET | `/profile/me?token={token}` | Get profile |
+| PUT | `/profile/update` | Update profile |
+| **Favorites** |
+| GET | `/favorites/my?token={token}` | List favorites |
+| POST | `/favorites/add` | Add favorite |
+| POST | `/favorites/remove` | Remove favorite |
+| **Friendship** |
+| POST | `/friendship/add` | Send friend request |
+| POST | `/friendship/respond` | Accept/ignore friend request |
+| GET | `/friendship/status?sender={user}&receiver={user}` | Get friendship status |
+| GET | `/friendship/requests?receiver={user}` | Get pending friend requests |
 
 ---
 
 ## 📝 License
 
-This project is under a proprietary license. Please contact for usage permissions.
+Proprietary license. Contact for usage permissions.
 
 ---
 
@@ -226,14 +139,8 @@ This project is under a proprietary license. Please contact for usage permission
 
 ---
 
-## 🐛 Bug Reports
-
-If you encounter any issues, please report them in the [Issues](https://github.com/aslanali0/play-both-app/issues) section.
-
----
-
 <div align="center">
 
-**⭐ If you like this project, don't forget to give it a star! ⭐**
+**⭐ Star this project if you find it useful! ⭐**
 
 </div>
