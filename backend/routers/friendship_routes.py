@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 from models.friendship import Friendship, FriendshipResponse
 from services.friend_services import (
+    get_friends_profiles,
+    get_friends_usernames,
     get_friendship_requests,
     get_friendship_status,
     respond_friend_request,
@@ -28,3 +30,13 @@ async def friendship_status(sender: str, receiver: str):
 @router.get("/requests")
 async def friendship_requests(receiver: str):
     return await get_friendship_requests(receiver)
+
+
+@router.get("/friends")
+async def friends(username: str):
+    return await get_friends_usernames(username)
+
+
+@router.get("/friends/profiles")
+async def friends_profiles(username: str):
+    return await get_friends_profiles(username)

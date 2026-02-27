@@ -1,20 +1,22 @@
- @import "tailwindcss";
+@import "tailwindcss";
 :root {
-  text-color: white
+  text-color: white;
 }
 @theme {
-  --color-neon-cyan: #22d3ee;
-  --color-neon-purple: #a855f7;
-  --shadow-neon: 0 0 15px var(--color-neon-cyan);
   --animate-slide-up: slideUp 0.5s ease-out;
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
-
-@utility home-element{
-  background-color: oklch(0.2 0.05 250 / 0.4); 
+@utility home-element {
+  background-color: rgb(26 30 14 / 0.2);
   border: none;
 }

@@ -1,19 +1,25 @@
 import { useState } from "react";
-import api from "../../api/api"
+import api from "../../api/api";
 import type { UserProfile } from "../../types/user";
 import { useAuth } from "../../context/AuthContext";
 import FriendRequestButton from "./FriendRequestButton";
 
-const API_URL = '/profile'
+const API_URL = "/profile";
 
-const ProfileInfo = ({ profile, isPublic }: { profile: UserProfile, isPublic: boolean }) => {
+const ProfileInfo = ({
+  profile,
+  isPublic,
+}: {
+  profile: UserProfile;
+  isPublic: boolean;
+}) => {
   const { user, loading } = useAuth();
   const [bio, setBio] = useState(profile?.bio);
   const [avatar, setAvatar] = useState(profile?.avatar_url);
   const [isEditing, setIsEditing] = useState(false);
   const defaultAvatar = user?.username?.charAt(0).toUpperCase() || " ?";
   const handleUpdate = async (e: React.FormEvent<HTMLInputElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const response = await api.post(
         `${API_URL}/update`,
@@ -28,9 +34,8 @@ const ProfileInfo = ({ profile, isPublic }: { profile: UserProfile, isPublic: bo
           },
         },
       );
-      setIsEditing(false)
+      setIsEditing(false);
       return response.data;
-
     } catch (error) {
       console.log("update profile error: " + error);
     }
@@ -38,33 +43,39 @@ const ProfileInfo = ({ profile, isPublic }: { profile: UserProfile, isPublic: bo
 
   return (
     <div className="w-3xl animate-slide-up home-element shadow-xl overflow-hidden transition-all hover:shadow-2xl p-4 rounded-t-2xl flex-col">
-      <div className="flex flex-col w-full font-bold text-right text-sm text-indigo-500 hover:text-indigo-700 cursor-pointer transition-all">{!isPublic ? (
-        <button
-          onClick={() => setIsEditing(true)}
-          className="self-end"
-        >
-          Edit Profile
-        </button>)
-        :
-        <FriendRequestButton sender={user?.username} receiver={profile.username} />}</div>
+      <div className="flex flex-col w-full font-bold text-right text-sm text-orange-500 hover:text-orange-700 cursor-pointer transition-all">
+        {!isPublic ? (
+          <button onClick={() => setIsEditing(true)} className="self-end">
+            Edit Profile
+          </button>
+        ) : (
+          <FriendRequestButton
+            sender={user?.username}
+            receiver={profile.username}
+          />
+        )}
+      </div>
       {isEditing ? (
-        <form onSubmit={handleUpdate} className="w-full flex flex-col items-center gap-4">
+        <form
+          onSubmit={handleUpdate}
+          className="w-full flex flex-col items-center gap-4"
+        >
           <input
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none"
             type="url"
             placeholder="Avatar URL"
             value={avatar}
             onChange={(e) => setAvatar(e.target.value)}
           />
           <input
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none"
             type="text"
             placeholder="Bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
           />
           <input
-            className="w-1/2 bg-indigo-500 text-white font-bold py-2 rounded-lg cursor-pointer hover:bg-indigo-600 transition-colors"
+            className="w-1/2 bg-orange-500 text-white font-bold py-2 rounded-lg cursor-pointer hover:bg-orange-600 transition-colors"
             type="submit"
             value="Update"
           />
@@ -82,27 +93,24 @@ const ProfileInfo = ({ profile, isPublic }: { profile: UserProfile, isPublic: bo
           {avatar ? (
             <img
               src={avatar}
-              className="w-24 h-24 rounded-full object-cover border-2 border-indigo-500 shadow-md"
+              className="w-24 h-24 rounded-full object-cover border-2 border-orange-500 shadow-md"
               alt="Profile"
             />
           ) : (
-            <span className="flex items-center justify-center w-24 h-24 text-4xl rounded-full bg-indigo-500 font-black ">
+            <span className="flex items-center justify-center w-24 h-24 text-4xl rounded-full bg-orange-500 font-black ">
               {defaultAvatar}
             </span>
           )}
-          <div>
-            {profile.username}
-          </div>
+          <div>{profile.username}</div>
 
           <div className="text-center">
             <p className="text-gray-300 font-light">
-              <span className="font-bold text-indigo-600">Bio:</span>{" "}
+              <span className="font-bold text-orange-600">Bio:</span>{" "}
               {bio || "Welcome to my profile!"}
             </p>
           </div>
         </div>
-      ) : (
-        null)}
+      ) : null}
     </div>
   );
 };

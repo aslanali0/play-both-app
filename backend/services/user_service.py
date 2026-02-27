@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from app.database import user_collection
+from app.database import user_collection, profile_collection
 from models.user import UserCreate, UserLogin
 from utils.auth_utils import hash_pwd, verify_pwd
 
@@ -7,7 +7,9 @@ from utils.auth_utils import hash_pwd, verify_pwd
 async def create_user(user: UserCreate):
     existing_user = await user_collection.find_one({"username": user.username})
     if existing_user:
-        raise HTTPException(status_code=400, detail="Please choose a different username")
+        raise HTTPException(
+            status_code=400, detail="Please choose a different username"
+        )
     existing_user = await user_collection.find_one({"email": user.email})
     if existing_user:
         raise HTTPException(status_code=400, detail="Email address already in use")
@@ -16,6 +18,13 @@ async def create_user(user: UserCreate):
     hashed_pwd = hash_pwd(plain_pwd)
     user_dict["password"] = hashed_pwd
     await user_collection.insert_one(user_dict)
+    # Also need to create a default profile for the user here
+    profile_dict = {
+        "username": user.username,
+        "avatar_url": "",
+        "bio": "Welcome to my profile!",
+    }
+    await profile_collection.insert_one(profile_dict)
     return user_dict
 
 
@@ -25,7 +34,11 @@ async def auth_user(email: str, password: str):
         raise HTTPException(status_code=400, detail="User not found")
     hashed_pwd = existing_user.get("password")
     if verify_pwd(password, hashed_pwd):
-        logged_user = {"username": existing_user.get('username'), "email": email, "password": password}
+        logged_user = {
+            "username": existing_user.get("username"),
+            "email": email,
+            "password": password,
+        }
         return logged_user
     else:
         return None

@@ -1,12 +1,11 @@
-import type { BaseEntity } from './base';
+import type { BaseEntity } from "./base";
 
-export type UserRole = 'ADMIN' | 'USER';
+export type UserRole = "ADMIN" | "USER";
 
 export interface User extends BaseEntity {
-  username: string,
-  email: string,
-  profile: UserProfile | null,
-
+  username: string;
+  email: string;
+  profile: UserProfile | null;
 }
 
 export interface AuthContext {
@@ -18,12 +17,12 @@ export interface AuthContext {
 }
 
 export interface UserProfile extends BaseEntity {
-  username: string
+  username: string;
   bio: string;
   avatar_url: string;
 }
 
 export interface FriendshipRequest {
-  sender: string,
-  receiver: string
+  request_sender: string;
+  request_receiver: string;
 }

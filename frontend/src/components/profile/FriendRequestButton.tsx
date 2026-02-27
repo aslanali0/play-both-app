@@ -35,7 +35,7 @@ const FriendRequestButton = ({ sender, receiver }: { sender: string, receiver: s
           }
         })
         const friendship_status = response.data
-        if (friendship_status) { setIsRequestSent(true) }
+        if (friendship_status == "pending") { setIsRequestSent(true) }
       }
       catch (error) {
         return error
@@ -45,7 +45,7 @@ const FriendRequestButton = ({ sender, receiver }: { sender: string, receiver: s
   }, [])
   return (
     <div> {!isRequestSent ?
-      <button onClick={handleFriendRequest} className="">Send Friend Request</button>
+      <button onClick={(e) => handleFriendRequest(e)} className="">Send Friend Request</button>
       : <span className="text-white">Request Sent</span>}
     </div>
 

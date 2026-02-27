@@ -1,14 +1,13 @@
 from datetime import datetime
 from app.database import friendship_collection
 from models.friendship import Friendship, FriendshipResponse, FriendshipStatus
+from services.profile_services import get_profile_service
 
 
 async def send_friend_request(new_friendship: Friendship):
     try:
         friendship_dict = new_friendship.model_dump()
         friendship_dict["created_at"] = datetime.now()
-        print(friendship_dict)
-        print(type(friendship_dict))
         await friendship_collection.insert_one(friendship_dict)
         friendship_dict.pop("_id")
         return friendship_dict
@@ -33,10 +32,12 @@ async def respond_friend_request(friendship_response: FriendshipResponse):
 
 async def get_friendship_status(sender: str, receiver: str):
     try:
-        friendship = await friendship_collection.find_one({
-            "request_sender": sender,
-            "request_receiver": receiver,
-        })
+        friendship = await friendship_collection.find_one(
+            {
+                "request_sender": sender,
+                "request_receiver": receiver,
+            }
+        )
         return friendship.get("status")
     except Exception as e:
         return e
@@ -51,7 +52,42 @@ async def get_friendship_requests(receiver: str):
             },
             {"_id": 0},
         )
-        requests = await response.to_list()
+        requests = await response.to_list(length=100)
+        print(requests)
         return requests
+    except Exception as e:
+        return e
+
+
+async def get_friends_usernames(username: str):
+    try:
+        query = {
+            "$and": [
+                {"$or": [{"request_sender": username}, {"request_receiver": username}]},
+                {"status": "accepted"},
+            ]
+        }
+        response = friendship_collection.find(query, {"_id": 0})
+        friendships = await response.to_list(length=200)
+        friends_usernames = []
+        for friendship in friendships:
+            if friendship["request_sender"] == username:
+                friends_usernames.append(friendship["request_receiver"])
+            else:
+                friends_usernames.append(friendship["request_sender"])
+        return friends_usernames
+    except Exception as e:
+        return e
+
+
+async def get_friends_profiles(username: str):
+    try:
+        friends_usernames = await get_friends_usernames(username)
+        friends_profiles = []
+        for friend_username in friends_usernames:
+            profile = await get_profile_service(friend_username)
+            if profile:
+                friends_profiles.append(profile)
+        return friends_profiles
     except Exception as e:
         return e
