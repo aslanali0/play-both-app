@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
 import type { Favorite } from "../../types/content";
 import api from "../../api/api";
-import { useAuth } from "../../context/AuthContext";
 
 const API_URL = "/favorites";
 
-const Favorites = ({ isPublic }: { isPublic: boolean }) => {
+const Favorites = ({
+  isPublic,
+  username,
+}: {
+  isPublic: boolean;
+  username: string;
+}) => {
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [loading, setLoading] = useState(true);
-  const { profile } = useAuth();
   const handleFavorites = async () => {
     try {
       const response = await api.get(`${API_URL}/my`, {
         params: {
-          username: profile?.username,
+          username: username,
         },
       });
 
@@ -35,7 +39,7 @@ const Favorites = ({ isPublic }: { isPublic: boolean }) => {
         },
         {
           params: {
-            username: profile?.username,
+            username: username,
           },
         },
       );

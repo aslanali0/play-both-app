@@ -10,6 +10,7 @@ import ProfilePage from "./pages/ProfilePage.tsx";
 import PublicProfilePage from "./pages/PublicProfilePage.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import CommunityPage from "./pages/CommunityPage.tsx";
+import FeedPage from "./pages/FeedPage.tsx";
 function App() {
   const location = useLocation();
   return (
@@ -26,6 +27,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <HomePage />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route
+              path="/feed"
+              element={
+                <ProtectedRoute>
+                  <FeedPage />
                 </ProtectedRoute>
               }
             ></Route>

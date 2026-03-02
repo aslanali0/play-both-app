@@ -17,6 +17,12 @@ const Navbar = () => {
             PlayBoth▶
           </Link>
           <Link
+            to="/feed"
+            className="relative mt-2 transition-colors text-orange-600 hover:text-orange-400 border-white"
+          >
+            Feed
+          </Link>
+          <Link
             to="/community"
             className="relative mt-2 transition-colors text-orange-600 hover:text-orange-400  border-white"
           >
@@ -43,7 +49,7 @@ const Navbar = () => {
                           alt="Profile"
                         />
                       ) : (
-                        <span className="flex items-center justify-center w-12 h-12 text-xl rounded-full bg-indigo-500 font-black ">
+                        <span className="flex items-center justify-center w-12 h-12 text-xl rounded-full bg-orange-500 font-black ">
                           {defaultAvatar}
                         </span>
                       )}

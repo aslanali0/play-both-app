@@ -7,7 +7,8 @@ from routers import (
     game_routes,
     profile_routes,
     user_routes,
-    song_routes
+    song_routes,
+    post_routes,
 )
 
 import logging
@@ -35,3 +36,4 @@ app.include_router(favorites_routes.router, prefix="/favorites", tags=["favorite
 app.include_router(auth_routes.router, prefix="/auth", tags=["auth"])
 app.include_router(song_routes.router, prefix="/songs", tags=["songs"])
 app.include_router(friendship_routes.router, prefix="/friendship", tags=["friendships"])
+app.include_router(post_routes.router, prefix="/posts", tags=["posts"])

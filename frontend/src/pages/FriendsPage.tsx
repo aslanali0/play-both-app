@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import api from "../api/api";
 import type { UserProfile } from "../types/user";
 import ProfileInfo from "../components/profile/ProfileInfo";
+import Favorites from "../components/profile/Favorites";
 
 const API_URL = "/friendship";
 
@@ -26,14 +27,17 @@ const FriendsPage = () => {
   }, [user?.username]);
 
   return (
-    <div>
+    <div className="flex justify-center">
       {friendsList &&
         friendsList.map((friendProfile: UserProfile) => (
-          <ProfileInfo
-            key={friendProfile.username}
-            isPublic={true}
-            profile={friendProfile}
-          />
+          <div className="p-10">
+            <ProfileInfo
+              key={friendProfile.username}
+              isPublic={true}
+              profile={friendProfile}
+            />
+            <Favorites isPublic={true} username={friendProfile.username} />
+          </div>
         ))}
     </div>
   );

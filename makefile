@@ -1,5 +1,6 @@
 .PHONY: api
 VENV = .venv
+PYTHON = python3
 ifeq ($(OS),Windows_NT)
    UVICORN := $(VENV)/Scripts/uvicorn 
 else
@@ -16,4 +17,4 @@ web:
 
 install:
 	cd frontend && npm install
-	cd backend && python -m venv .venv && $(VENV)/bin/pip install -r requirements.txt
+	cd backend && $(PYTHON) -m venv .venv && $(VENV)/bin/pip install -r requirements.txt
