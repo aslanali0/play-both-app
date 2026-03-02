@@ -22,6 +22,14 @@ A web platform for discovering video games and their soundtracks. Search games v
 
 ---
 
+## Screenshots
+
+- [Search Page](assets/screenshots/playboth_1.png)
+- [Feed Page](assets/screenshots/playboth_3.png)
+- [Profile Page](assets/screenshots/playboth_2.png)
+
+---
+
 ## 🏗️ Tech Stack
 
 **Frontend:** React 19 • TypeScript • Vite • React Router • Tailwind CSS 4 • Axios
@@ -33,6 +41,7 @@ A web platform for discovering video games and their soundtracks. Search games v
 ## 🚀 Installation
 
 ### Prerequisites
+
 - Node.js 18+ • Python 3.9+ • MongoDB
 
 ### Setup
@@ -66,10 +75,12 @@ make web
 ```
 
 **Access the app:**
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:8000
+
+- Frontend: <http://localhost:5173>
+- Backend API: <http://localhost:8000>
 
 **Available makefile commands:**
+
 - `make install` - Install all dependencies
 - `make api` - Start backend server
 - `make web` - Start frontend dev server
@@ -103,27 +114,27 @@ play-both-app/
 
 ## 🔌 API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| **Games** |
-| GET | `/games/search?game_name={name}` | Search for games |
+| Method             | Endpoint                                           | Description                  |
+| ------------------ | -------------------------------------------------- | ---------------------------- |
+| **Games**          |
+| GET                | `/games/search?game_name={name}`                   | Search for games             |
 | **Authentication** |
-| GET | `/auth/me?token={token}` | Get current user |
-| **Users** |
-| POST | `/users/register` | Register new user |
-| POST | `/users/login` | Login |
-| **Profile** |
-| GET | `/profile/me?token={token}` | Get profile |
-| PUT | `/profile/update` | Update profile |
-| **Favorites** |
-| GET | `/favorites/my?token={token}` | List favorites |
-| POST | `/favorites/add` | Add favorite |
-| POST | `/favorites/remove` | Remove favorite |
-| **Friendship** |
-| POST | `/friendship/add` | Send friend request |
-| POST | `/friendship/respond` | Accept/ignore friend request |
-| GET | `/friendship/status?sender={user}&receiver={user}` | Get friendship status |
-| GET | `/friendship/requests?receiver={user}` | Get pending friend requests |
+| GET                | `/auth/me?token={token}`                           | Get current user             |
+| **Users**          |
+| POST               | `/users/register`                                  | Register new user            |
+| POST               | `/users/login`                                     | Login                        |
+| **Profile**        |
+| GET                | `/profile/me?token={token}`                        | Get profile                  |
+| PUT                | `/profile/update`                                  | Update profile               |
+| **Favorites**      |
+| GET                | `/favorites/my?token={token}`                      | List favorites               |
+| POST               | `/favorites/add`                                   | Add favorite                 |
+| POST               | `/favorites/remove`                                | Remove favorite              |
+| **Friendship**     |
+| POST               | `/friendship/add`                                  | Send friend request          |
+| POST               | `/friendship/respond`                              | Accept/ignore friend request |
+| GET                | `/friendship/status?sender={user}&receiver={user}` | Get friendship status        |
+| GET                | `/friendship/requests?receiver={user}`             | Get pending friend requests  |
 
 ---
 
