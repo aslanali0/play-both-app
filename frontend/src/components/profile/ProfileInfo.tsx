@@ -3,6 +3,7 @@ import api from "../../api/api";
 import type { UserProfile } from "../../types/user";
 import { useAuth } from "../../context/AuthContext";
 import FriendRequestButton from "./FriendRequestButton";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "/profile";
 
@@ -13,6 +14,7 @@ const ProfileInfo = ({
   profile: UserProfile;
   isPublic: boolean;
 }) => {
+  const navigate = useNavigate();
   const { user, loading } = useAuth();
   const [bio, setBio] = useState(profile?.bio);
   const [avatar, setAvatar] = useState(profile?.avatar_url);
@@ -43,9 +45,12 @@ const ProfileInfo = ({
 
   return (
     <div className="w-3xl animate-slide-up home-element shadow-xl overflow-hidden transition-all hover:shadow-2xl p-4 rounded-t-2xl flex-col">
-      <div className="flex flex-col w-full font-bold text-right text-sm text-orange-500 hover:text-orange-700 cursor-pointer transition-all">
+      <div className="flex flex-col w-full font-bold text-right text-sm text-orange-500 hover:text-orange-700 transition-all">
         {!isPublic ? (
-          <button onClick={() => setIsEditing(true)} className="self-end">
+          <button
+            onClick={() => setIsEditing(true)}
+            className="self-end cursor-pointer"
+          >
             Edit Profile
           </button>
         ) : (
@@ -90,17 +95,24 @@ const ProfileInfo = ({
         </form>
       ) : !loading ? (
         <div className="flex flex-col items-center gap-4">
-          {avatar ? (
-            <img
-              src={avatar}
-              className="w-24 h-24 rounded-full object-cover border-2 border-orange-500 shadow-md"
-              alt="Profile"
-            />
-          ) : (
-            <span className="flex items-center justify-center w-24 h-24 text-4xl rounded-full bg-orange-500 font-black ">
-              {defaultAvatar}
-            </span>
-          )}
+          <div
+            onClick={() => {
+              navigate(`/profile/${profile.username}`);
+            }}
+            className="cursor-pointer"
+          >
+            {avatar ? (
+              <img
+                src={avatar}
+                className="w-24 h-24 rounded-full object-cover border-2 border-orange-500 shadow-md"
+                alt="Profile"
+              />
+            ) : (
+              <span className="flex items-center justify-center w-24 h-24 text-4xl rounded-full bg-orange-500 font-black ">
+                {defaultAvatar}
+              </span>
+            )}
+          </div>
           <div>{profile.username}</div>
 
           <div className="text-center">

@@ -22,7 +22,7 @@ const FeedPage = () => {
     handlePosts();
   }, []);
   return (
-    <div className=" flex justify-center items-center flex-col pb-30">
+    <div className=" flex justify-center items-center flex-col pb-40">
       {posts &&
         posts.map((post) => <PostCard key={post.post_id} post={post} />)}
       <div className="fixed bottom-10 w-lg">

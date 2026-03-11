@@ -38,6 +38,16 @@ async def get_friendship_status(sender: str, receiver: str):
                 "request_receiver": receiver,
             }
         )
+        if friendship is None:
+            # Checking again if friendship exists in the opposite direction
+            friendship = await friendship_collection.find_one(
+                {
+                    "request_sender": receiver,
+                    "request_receiver": sender,
+                }
+            )
+            if friendship is None:
+                return None
         return friendship.get("status")
     except Exception as e:
         return e

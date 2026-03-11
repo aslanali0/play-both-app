@@ -3,6 +3,9 @@ import type { UserProfile } from "./user";
 
 export interface Comment extends BaseEntity {
   post_id: string;
+  user: UserProfile;
+  content: string;
+  created_at: Date;
 }
 
 export interface Post extends BaseEntity {

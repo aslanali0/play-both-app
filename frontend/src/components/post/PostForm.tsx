@@ -7,6 +7,7 @@ const PostForm = () => {
   const { profile } = useAuth();
   const [content, setContent] = useState("");
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       const response = api.post(API_URL, {
         user: profile,

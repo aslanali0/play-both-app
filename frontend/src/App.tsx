@@ -47,7 +47,7 @@ function App() {
               }
             ></Route>
             <Route
-              path="/profile"
+              path="/profile/:username"
               element={
                 <ProtectedRoute>
                   <PublicProfilePage />

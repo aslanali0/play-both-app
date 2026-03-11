@@ -38,10 +38,11 @@ const FriendRequestButton = ({
         const friendship_status = response.data;
         if (friendship_status) {
           setIsRequestSent(true);
+          console.log(friendship_status);
           if (friendship_status == "accepted") {
             setFriendshipstatus("Friend");
           } else {
-            setFriendshipstatus(friendshipStatus);
+            setFriendshipstatus("Friend Request " + friendship_status);
           }
         }
       } catch (error) {
@@ -49,13 +50,18 @@ const FriendRequestButton = ({
       }
     };
     handleFriendshipStatus();
-  }, []);
+  }, [receiver]);
   return (
     <div>
       {" "}
       {!isRequestSent ? (
-        <button onClick={(e) => handleFriendRequest(e)} className="">
-          Send Friend Request
+        <button
+          onClick={(e) => {
+            handleFriendRequest(e);
+          }}
+          className=""
+        >
+          <span className="cursor-pointer"> Send Friend Request</span>
         </button>
       ) : (
         friendshipStatus && (
