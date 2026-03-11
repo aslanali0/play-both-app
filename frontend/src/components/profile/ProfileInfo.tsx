@@ -20,7 +20,7 @@ const ProfileInfo = ({
   const [avatar, setAvatar] = useState(profile?.avatar_url);
   const [isEditing, setIsEditing] = useState(false);
   const defaultAvatar = user?.username?.charAt(0).toUpperCase() || " ?";
-  const handleUpdate = async (e: React.FormEvent<HTMLInputElement>) => {
+  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await api.post(
@@ -56,17 +56,21 @@ const ProfileInfo = ({
           </button>
         ) : (
           <div className="self-end">
-            <FriendRequestButton
-              sender={user?.username}
-              receiver={profile.username}
-            />
+            {user && (
+              <FriendRequestButton
+                sender={user?.username}
+                receiver={profile.username}
+              />
+            )}
           </div>
         )}
       </div>
 
       {isEditing ? (
         <form
-          onSubmit={handleUpdate}
+          onSubmit={(e) => {
+            handleUpdate(e);
+          }}
           className="w-full flex flex-col items-center gap-4 mt-2"
         >
           <input

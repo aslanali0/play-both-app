@@ -1,15 +1,15 @@
-import axios from "axios";
 import { useState } from "react";
-import type { Game } from "../types/content";
 import api from "../api/api";
-import type { UserProfile } from "../types/user";
 
 const API_URL = "/profile";
+type Props = {
+  onSearched: (q: string) => void | Promise<void>;
+};
 
-const SearchUserBar = ({ onSearched }) => {
+const SearchUserBar = ({ onSearched }: Props) => {
   const [search, setSearch] = useState("");
 
-  const handleSearchUser = async (e: React.FormEvent<HTMLInputElement>) => {
+  const handleSearchUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {

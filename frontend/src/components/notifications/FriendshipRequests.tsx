@@ -5,7 +5,9 @@ import type { FriendshipRequest } from "../../types/user";
 const FRIENDSHIP_API_URL = "/friendship";
 
 const FriendshipRequests = ({ username }: { username: string }) => {
-  const [friendshipRequests, setFriendshipRequests] = useState(null);
+  const [friendshipRequests, setFriendshipRequests] = useState<
+    FriendshipRequest[]
+  >([]);
   const handleFriendshipNotifications = async () => {
     try {
       const response = await api.get(`${FRIENDSHIP_API_URL}/requests`, {

@@ -9,7 +9,7 @@ const CommentForm = ({ post }: { post: Post }) => {
   const [commentState, setCommentState] = useState(false);
   const { profile } = useAuth();
   const [content, setContent] = useState("");
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = () => {
     try {
       const response = api.post(API_URL, {
         post_id: post.post_id,

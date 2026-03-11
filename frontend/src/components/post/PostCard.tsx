@@ -46,7 +46,7 @@ const PostCard = ({ post }: { post: Post }) => {
       return error;
     }
   };
-  const handleLike = async (e) => {
+  const handleLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       console.log(post);
@@ -106,10 +106,9 @@ const PostCard = ({ post }: { post: Post }) => {
           <div className="p-1">{post.content}</div>
           <div className="flex gap-5">
             <div className="flex items-start gap-1">
-              <HandThumbUpIcon
-                onClick={handleLike}
-                className="w-5 cursor-pointer"
-              />
+              <button onClick={handleLike} className="w-5 cursor-pointer">
+                <HandThumbUpIcon />
+              </button>
               {localLikes}
             </div>
             <CommentForm post={post} />

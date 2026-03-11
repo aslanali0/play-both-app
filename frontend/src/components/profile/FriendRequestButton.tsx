@@ -11,7 +11,9 @@ const FriendRequestButton = ({
 }) => {
   const [isRequestSent, setIsRequestSent] = useState(false);
   const [friendshipStatus, setFriendshipstatus] = useState("");
-  const handleFriendRequest = async (e: React.FormEvent<HTMLInputElement>) => {
+  const handleFriendRequest = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
     e.preventDefault();
 
     try {

@@ -59,7 +59,7 @@ const PostForm = () => {
       try {
         const response = await api.get(`${FAVORITES_API_URL}/my`, {
           params: {
-            username: profile.username,
+            username: profile?.username,
           },
         });
 

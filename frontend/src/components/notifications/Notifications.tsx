@@ -41,7 +41,7 @@ overflow-hidden flex flex-col`}
         </h3>
 
         <div className="max-h-[60vh] overflow-y-auto">
-          <FriendshipRequests username={user?.username} />
+          {user && <FriendshipRequests username={user?.username} />}
         </div>
       </div>
     </div>
