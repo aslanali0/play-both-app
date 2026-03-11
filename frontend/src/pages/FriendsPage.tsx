@@ -27,18 +27,23 @@ const FriendsPage = () => {
   }, [user?.username]);
 
   return (
-    <div className="flex justify-center">
-      {friendsList &&
+    <div className="flex flex-col items-center w-full px-4 py-8 gap-10">
+      {friendsList && friendsList.length > 0 ? (
         friendsList.map((friendProfile: UserProfile) => (
-          <div className="p-10">
-            <ProfileInfo
-              key={friendProfile.username}
-              isPublic={true}
-              profile={friendProfile}
-            />
-            <Favorites isPublic={true} username={friendProfile.username} />
+          <div
+            key={friendProfile.username}
+            className="w-full max-w-3xl flex flex-col gap-4 bg-gray-900/20 p-4 sm:p-6 rounded-2xl border border-gray-700/20 transition-all hover:bg-gray-900/30"
+          >
+            <ProfileInfo isPublic={true} profile={friendProfile} />
+
+            <div className="w-full">
+              <Favorites isPublic={true} username={friendProfile.username} />
+            </div>
           </div>
-        ))}
+        ))
+      ) : (
+        <div className="text-gray-400 mt-10 italic">No friends found yet.</div>
+      )}
     </div>
   );
 };

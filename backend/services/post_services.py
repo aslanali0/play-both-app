@@ -14,14 +14,29 @@ async def create_post(post: PostIn):
     return post_dict
 
 
+async def delete_post(post_id: str):
+    print(f"Attempting to delete post with ID: {post_id}")
+    try:
+        existing_post = await post_collection.find_one({"_id": ObjectId(post_id)})
+        if existing_post:
+            await post_collection.delete_one({"_id": ObjectId(post_id)})
+            await like_collection.delete_many({"post_id": post_id})
+            await comment_collection.delete_many({"post_id": post_id})
+            return {"response": True}
+        else:
+            return {"response": False, "error": "Post not found"}
+    except Exception as e:
+        return {"response": False, "error": str(e)}
+
+
 async def get_all_posts():
     posts = [PostOut]
     try:
         posts_cursor = post_collection.find()
         posts = await posts_cursor.to_list(length=100)  # Limited for testing
         for post in posts:
+            post["likes"] = await count_likes(str(post["_id"]))
             post["post_id"] = str(post.pop("_id"))
-
     except Exception as e:
         return {"error": str(e)}
     posts.sort(
@@ -74,6 +89,7 @@ async def get_users_all_posts(username: str):
         posts_cursor = post_collection.find({"user.username": username})
         posts = await posts_cursor.to_list(length=100)
         for post in posts:
+            post["likes"] = await count_likes(str(post["_id"]))
             post["post_id"] = str(post.pop("_id"))
         posts.sort(key=lambda x: x.get("created_at", ""), reverse=True)
         return posts
@@ -87,6 +103,20 @@ async def comment_post(comment: Comment):
     await comment_collection.insert_one(comment_dict)
     comment_dict.pop("_id", None)
     return comment_dict
+
+
+async def delete_comment(comment_id: str):
+    try:
+        existing_comment = await comment_collection.find_one(
+            {"_id": ObjectId(comment_id)}
+        )
+        if existing_comment:
+            await comment_collection.delete_one({"_id": ObjectId(comment_id)})
+            return {"response": True}
+        else:
+            return {"response": False, "error": "Comment not found"}
+    except Exception as e:
+        return {"response": False, "error": str(e)}
 
 
 async def get_comments_for_post(post_id: str):

@@ -14,7 +14,7 @@ import FeedPage from "./pages/FeedPage.tsx";
 function App() {
   const location = useLocation();
   return (
-    <div className="text-white m-0 w-screen  min-h-screen flex flex-col bg-slate-950 ">
+    <div className="text-white m-0 max-w-full md:mx-auto min-h-screen flex flex-col bg-slate-950 ">
       <AuthProvider>
         <Navbar />
 

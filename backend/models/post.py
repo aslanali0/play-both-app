@@ -19,14 +19,17 @@ class PostOut(BaseModel):
     id: PyObjectId = Field(alias="_id")
     user: UserProfile
     content: str
+    song_url: Optional[str] = None
+    song_title: Optional[str] = None
     likes: int = 0
-    dislikes: int = 0
     created_at: Optional[str] = datetime.now().isoformat()
 
 
 class PostIn(BaseModel):
     user: UserProfile
     content: str
+    song_url: Optional[str] = None
+    song_title: Optional[str] = None
     created_at: Optional[str] = datetime.now().isoformat()
 
 

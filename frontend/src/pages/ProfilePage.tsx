@@ -46,24 +46,28 @@ const ProfilePage = () => {
     };
     handlePosts();
     handleProfile();
-    console.log(posts);
   }, [user?.username]);
   return (
-    <div className="min-h-screen box-border flex w-full pt-20 justify-center p-4">
+    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden pt-20 pb-10 flex justify-center px-4 md:px-8">
       {!loading ? (
-        <div>
+        <div className="w-full max-w-2xl lg:max-w-3xl flex flex-col gap-6 md:gap-8">
           <ProfileInfo isPublic={false} profile={profile} />
           <Favorites isPublic={false} username={user?.username} />
-          <div className="flex w-full mx-auto justify-center items-center bg-gray-800/30 m-5 rounded-xl flex-col">
-            <span className="text-lg text-center p-7  w-full rounded-lg mt-5">
-              Posts:{" "}
+
+          <div className="flex flex-col w-full bg-gray-800/30 rounded-xl p-3 sm:p-5 md:p-6 items-center">
+            <span className="text-base sm:text-lg text-center w-full mb-4 md:mb-6 font-medium">
+              Posts
             </span>
-            {posts &&
-              posts.map((post) => <PostCard key={post.post_id} post={post} />)}
+            <div className="w-full flex flex-col gap-4">
+              {posts &&
+                posts.map((post) => (
+                  <PostCard key={post.post_id} post={post} />
+                ))}
+            </div>
           </div>
         </div>
       ) : (
-        <div className="animate-pulse">Loading...</div>
+        <div className="animate-pulse text-lg mt-10">Loading...</div>
       )}
     </div>
   );

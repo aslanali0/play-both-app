@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Swal from "sweetalert2";
 import api from "../api/api";
 import type { LoginRequest } from "../types/Auth";
 const API_URL = "/users";
@@ -27,6 +28,15 @@ const LoginPage = () => {
       navigate("/home");
     } catch (error) {
       console.error("Login error: ", error);
+      await Swal.fire({
+        icon: "error",
+        title: "Login Failed!",
+        text: "Invalid email or password. Please check your credentials and try again.",
+        confirmButtonText: "Try Again",
+        background: "#1f2937",
+        color: "#fff",
+        confirmButtonColor: "#d33",
+      });
       localStorage.clear();
     }
   };

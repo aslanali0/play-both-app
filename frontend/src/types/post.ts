@@ -10,9 +10,10 @@ export interface Comment extends BaseEntity {
 
 export interface Post extends BaseEntity {
   post_id: string;
+  song_url: string;
+  song_title: string;
   content: string;
   likes: number;
-  dislikes: number;
   user: UserProfile;
   created_at: Date;
 }

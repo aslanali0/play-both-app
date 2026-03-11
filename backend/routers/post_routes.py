@@ -4,11 +4,13 @@ from models.post import Comment, Likes, PostIn, PostOut
 from services.post_services import (
     comment_post,
     create_post,
+    delete_post,
     get_all_posts,
     get_comments_for_post,
     get_users_all_posts,
     increment_dislike_post,
     like_unlike_post,
+    delete_comment,
 )
 
 
@@ -48,3 +50,13 @@ async def submit_comment(comment: Comment):
 @router.get("/comments")
 async def get_comments(post_id: str):
     return await get_comments_for_post(post_id=post_id)
+
+
+@router.post("/delete")
+async def remove_post(post_id: str):
+    return await delete_post(post_id=post_id)
+
+
+@router.post("/comment/delete")
+async def remove_comment(comment_id: str):
+    return await delete_comment(comment_id=comment_id)

@@ -44,79 +44,85 @@ const ProfileInfo = ({
   };
 
   return (
-    <div className="w-3xl animate-slide-up home-element shadow-xl overflow-hidden transition-all hover:shadow-2xl p-4 rounded-t-2xl flex-col">
-      <div className="flex flex-col w-full font-bold text-right text-sm text-orange-500 hover:text-orange-700 transition-all">
+    // 1. w-3xl yerine w-full ve max-w-3xl kullanıldı. Eksik olan 'flex' eklendi.
+    <div className="w-full max-w-3xl mx-auto animate-slide-up home-element shadow-xl overflow-hidden transition-all hover:shadow-2xl p-4 sm:p-6 rounded-t-2xl flex flex-col gap-2">
+      <div className="flex flex-col w-full font-bold text-right text-sm sm:text-base text-orange-500 hover:text-orange-700 transition-all">
         {!isPublic ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="self-end cursor-pointer"
+            className="self-end cursor-pointer px-2 py-1"
           >
             Edit Profile
           </button>
         ) : (
-          <FriendRequestButton
-            sender={user?.username}
-            receiver={profile.username}
-          />
+          <div className="self-end">
+            <FriendRequestButton
+              sender={user?.username}
+              receiver={profile.username}
+            />
+          </div>
         )}
       </div>
+
       {isEditing ? (
         <form
           onSubmit={handleUpdate}
-          className="w-full flex flex-col items-center gap-4"
+          className="w-full flex flex-col items-center gap-4 mt-2"
         >
           <input
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none text-black"
             type="url"
             placeholder="Avatar URL"
             value={avatar}
             onChange={(e) => setAvatar(e.target.value)}
           />
           <input
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none"
+            className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none text-black"
             type="text"
             placeholder="Bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
           />
-          <input
-            className="w-1/2 bg-orange-500 text-white font-bold py-2 rounded-lg cursor-pointer hover:bg-orange-600 transition-colors"
-            type="submit"
-            value="Update"
-          />
-          <input
-            className="w-1/2 bg-red-500 text-white font-bold py-2 rounded-lg cursor-pointer hover:bg-red-600 transition-colors"
-            type="button"
-            onClick={(): void => {
-              setIsEditing(false);
-            }}
-            value={"Cancel"}
-          />
+
+          {/* 2. Butonlar mobilde alt alta (flex-col), tablet ve üstünde yan yana (sm:flex-row) */}
+          <div className="flex flex-col sm:flex-row w-full gap-3 mt-2">
+            <input
+              className="w-full sm:w-1/2 bg-orange-500 text-white font-bold py-2 sm:py-3 rounded-lg cursor-pointer hover:bg-orange-600 transition-colors"
+              type="submit"
+              value="Update"
+            />
+            <input
+              className="w-full sm:w-1/2 bg-red-500 text-white font-bold py-2 sm:py-3 rounded-lg cursor-pointer hover:bg-red-600 transition-colors"
+              type="button"
+              onClick={() => setIsEditing(false)}
+              value="Cancel"
+            />
+          </div>
         </form>
       ) : !loading ? (
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-3 sm:gap-4 mt-2">
           <div
-            onClick={() => {
-              navigate(`/profile/${profile.username}`);
-            }}
-            className="cursor-pointer"
+            onClick={() => navigate(`/profile/${profile.username}`)}
+            className="cursor-pointer transition-transform hover:scale-105"
           >
             {avatar ? (
+              // 3. Avatar mobilde biraz daha küçük (w-20), büyük ekranda normal (sm:w-24)
               <img
                 src={avatar}
-                className="w-24 h-24 rounded-full object-cover border-2 border-orange-500 shadow-md"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-orange-500 shadow-md"
                 alt="Profile"
               />
             ) : (
-              <span className="flex items-center justify-center w-24 h-24 text-4xl rounded-full bg-orange-500 font-black ">
+              <span className="flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 text-3xl sm:text-4xl rounded-full bg-orange-500 font-black text-white">
                 {defaultAvatar}
               </span>
             )}
           </div>
-          <div>{profile.username}</div>
 
-          <div className="text-center">
-            <p className="text-gray-300 font-light">
+          <div className="text-lg sm:text-xl font-bold">{profile.username}</div>
+
+          <div className="text-center w-full px-2 sm:px-8">
+            <p className="text-gray-300 font-light text-sm sm:text-base break-words">
               <span className="font-bold text-orange-600">Bio:</span>{" "}
               {bio || "Welcome to my profile!"}
             </p>

@@ -2,6 +2,11 @@
 :root {
   text-color: white;
 }
+body {
+  background-color: #020617;
+  overflow-x: hidden;
+}
+
 @theme {
   --animate-slide-up: slideUp 0.5s ease-out;
   @keyframes slideUp {

@@ -45,7 +45,7 @@ const FriendshipRequests = ({ username }: { username: string }) => {
     }
   };
   return (
-    <div>
+    <div className="w-full flex flex-col gap-4">
       {friendshipRequests ? (
         <div>
           {friendshipRequests.map((request: FriendshipRequest) => (

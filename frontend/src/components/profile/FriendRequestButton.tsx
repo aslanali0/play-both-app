@@ -38,7 +38,6 @@ const FriendRequestButton = ({
         const friendship_status = response.data;
         if (friendship_status) {
           setIsRequestSent(true);
-          console.log(friendship_status);
           if (friendship_status == "accepted") {
             setFriendshipstatus("Friend");
           } else {
