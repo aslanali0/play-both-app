@@ -32,7 +32,7 @@ const SignUpPage = () => {
         icon: "error",
         title: "Registration Failed!",
         text:
-          error.message == "Passwords do not match"
+          error instanceof Error && error.message == "Passwords do not match"
             ? "Passwords do not match, please try again!"
             : "An error occurred while creating your account. The email might already be in use or the information provided is invalid.",
         confirmButtonText: "Try Again",

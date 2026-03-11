@@ -15,7 +15,11 @@ const PublicProfilePage = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState<[Post] | null>(null);
-
+  const toUserProfile = (u: User): UserProfile => ({
+    ...u,
+    bio: (u as any).bio ?? "", // veya u.bio varsa direkt u.bio
+    avatar_url: (u as any).avatar_url ?? "", // default
+  });
   useEffect(() => {
     const handleProfile = async () => {
       try {
@@ -26,7 +30,7 @@ const PublicProfilePage = () => {
         });
 
         const profile_data = response.data;
-        setProfile(profile_data);
+        setProfile(toUserProfile(profile_data));
         setLoading(false);
       } catch (error) {
         console.log("fetch profile error: " + error);
@@ -51,8 +55,8 @@ const PublicProfilePage = () => {
     <div className="min-h-screen box-border flex w-full pt-20 justify-center ">
       {!loading ? (
         <div>
-          <ProfileInfo isPublic={true} profile={profile} />
-          <Favorites isPublic={true} username={username} />
+          {profile && <ProfileInfo isPublic={true} profile={profile} />}
+          {username && <Favorites isPublic={true} username={username} />}
           <div className="flex w-full mx-auto justify-center items-center bg-gray-800/30 m-5 rounded-xl flex-col">
             <span className="text-lg text-center p-7  w-full rounded-lg mt-5">
               Posts:{" "}

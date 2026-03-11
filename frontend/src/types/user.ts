@@ -8,6 +8,7 @@ export interface User extends BaseEntity {
 
 export interface AuthContext {
   user: User | null;
+  profile: UserProfile | null;
   setUser: (user: User | null) => void;
   loading: boolean;
   refreshUser: () => Promise<void>;

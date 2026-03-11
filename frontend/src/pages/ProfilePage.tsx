@@ -15,7 +15,11 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState<[Post] | null>(null);
   const { user } = useAuth();
-
+  const toUserProfile = (u: User): UserProfile => ({
+    ...u,
+    bio: (u as any).bio ?? "",
+    avatar_url: (u as any).avatar_url ?? "",
+  });
   useEffect(() => {
     const handleProfile = async () => {
       try {
@@ -26,7 +30,7 @@ const ProfilePage = () => {
         });
 
         const profile_data = response.data;
-        setProfile(profile_data);
+        setProfile(toUserProfile(profile_data));
         setLoading(false);
       } catch (error) {
         console.log("fetch profile error: " + error);
@@ -51,9 +55,8 @@ const ProfilePage = () => {
     <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden pt-20 pb-10 flex justify-center px-4 md:px-8">
       {!loading ? (
         <div className="w-full max-w-2xl lg:max-w-3xl flex flex-col gap-6 md:gap-8">
-          <ProfileInfo isPublic={false} profile={profile} />
-          <Favorites isPublic={false} username={user?.username} />
-
+          {profile && <ProfileInfo isPublic={false} profile={profile} />}
+          {user && <Favorites isPublic={false} username={user?.username} />}
           <div className="flex flex-col w-full bg-gray-800/30 rounded-xl p-3 sm:p-5 md:p-6 items-center">
             <span className="text-base sm:text-lg text-center w-full mb-4 md:mb-6 font-medium">
               Posts
