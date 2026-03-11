@@ -1,9 +1,10 @@
 import { useState } from "react";
 import api from "../api/api";
+import type { UserProfile } from "../types/user";
 
 const API_URL = "/profile";
 type Props = {
-  onSearched: (q: string) => void | Promise<void>;
+  onSearched: (profile: UserProfile | null) => void | Promise<void>;
 };
 
 const SearchUserBar = ({ onSearched }: Props) => {

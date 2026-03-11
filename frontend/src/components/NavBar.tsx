@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Notifications from "./notifications/Notifications";
 
 const Navbar = () => {
-  const navigate = useNavigate();
   const { user, profile, loading, handleLogout } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
