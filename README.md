@@ -61,7 +61,7 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
 # Configure environment (.env file)
-# MONGODB_URL=mongodb://localhost:27017
+# DB_URL=mongodb://localhost:27017
 # SECRET_KEY=your-secret-key
 # STEAM_API_KEY=your-steam-api-key
 
