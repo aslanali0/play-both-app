@@ -27,14 +27,16 @@ const SongCard = ({
   }, [favList, songData]);
 
   const handleFavorite = async () => {
+    if (songData == null) return;
+    if (songData.game_steam_id == null) return;
     if (!isFavorited) {
       const response = await api.post(
         `${API_URL}/add`,
         {
-          game_steam_id: songData?.game_steam_id.toString(),
-          game_title: songData?.game_title,
-          song_title: songData?.title,
-          song_youtube_url: songData?.youtube_url || "url_not_found",
+          game_steam_id: songData.game_steam_id.toString(),
+          game_title: songData.game_title,
+          song_title: songData.title,
+          song_youtube_url: songData.youtube_url || "url_not_found",
         },
         {
           params: {
@@ -46,10 +48,10 @@ const SongCard = ({
       return response.data;
     } else {
       const response = await api.post(`${API_URL}/remove`, {
-        game_steam_id: songData?.game_steam_id.toString(),
-        game_title: songData?.game_title,
-        song_title: songData?.title,
-        song_youtube_url: songData?.youtube_url || "url_not_found",
+        game_steam_id: songData.game_steam_id.toString(),
+        game_title: songData.game_title,
+        song_title: songData.title,
+        song_youtube_url: songData.youtube_url || "url_not_found",
       });
       setIsFavorited(false);
       return response.data;
