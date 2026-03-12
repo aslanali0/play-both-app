@@ -1,5 +1,5 @@
 from app.database import song_collection
-from services.scraper_service import Track
+from models.game import Track
 
 
 async def add_songs_to_db(album, game):
