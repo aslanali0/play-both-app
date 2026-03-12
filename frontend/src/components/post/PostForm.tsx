@@ -12,11 +12,11 @@ const PostForm = () => {
   const [selectedSongTitle, setSelectedSongTitle] = useState<string | null>(
     null,
   );
-      const songOptions = favorites.map((fav) => ({
-      value: fav.song_youtube_url,
-      label: fav.song_title,
-    }));
-  
+  const songOptions = favorites.map((fav) => ({
+    value: fav.song_youtube_url,
+    label: fav.song_title,
+  }));
+
   const customStyles = {
     menuList: (base: any) => ({
       ...base,
@@ -42,7 +42,6 @@ const PostForm = () => {
   const { profile } = useAuth();
   const [content, setContent] = useState("");
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-
     e.preventDefault();
     try {
       const response = await api.post(POSTS_API_URL, {
@@ -82,7 +81,7 @@ const PostForm = () => {
           Add a song from your favorites (Optional)
         </label>
 
-        {favorites &&
+        {favorites && (
           <Select
             options={songOptions}
             styles={customStyles}
