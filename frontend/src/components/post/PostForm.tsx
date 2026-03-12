@@ -64,9 +64,11 @@ const PostForm = () => {
           },
         });
 
-        setFavorites(response.data);
+        const data = Array.isArray(response.data) ? response.data : [];
+        setFavorites(data);
       } catch (error) {
         console.log(error);
+        setFavorites([]);
       }
     };
     handleFavorites();
