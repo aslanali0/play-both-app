@@ -36,7 +36,7 @@ A web platform for discovering video games and their soundtracks. Search games v
 
 **Frontend:** React 19 • TypeScript • Vite • React Router 7 • Tailwind CSS 4 • Axios • Heroicons • SweetAlert2 • React Select
 
-**Backend:** FastAPI • MongoDB (Motor) • BeautifulSoup4 • Passlib • Python-JOSE • Uvicorn • python-dotenv
+**Backend:** FastAPI • MongoDB (Motor) • BeautifulSoup4 • Passlib • Python-JOSE • Uvicorn
 
 ---
 
@@ -65,6 +65,7 @@ pip install -r requirements.txt
 # Configure environment (.env file)
 # DB_URL=mongodb://localhost:27017/playboth
 # SECRET_KEY=your-secret-key
+# STEAM_API_KEY=your-steam-api-key
 # ALGORITHM=HS256
 # ACCESS_TOKEN_EXPIRE_MINUTES=60
 # CORS_ORIGINS=http://localhost:5173
