@@ -50,6 +50,7 @@ const PostForm = () => {
         song_title: selectedSongTitle,
         content: content,
       });
+      window.location.reload();
       return response;
     } catch (error) {
       console.log(error);

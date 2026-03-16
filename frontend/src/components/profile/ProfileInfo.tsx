@@ -44,7 +44,6 @@ const ProfileInfo = ({
   };
 
   return (
-    // 1. w-3xl yerine w-full ve max-w-3xl kullanıldı. Eksik olan 'flex' eklendi.
     <div className="w-full max-w-3xl mx-auto animate-slide-up home-element shadow-xl overflow-hidden transition-all hover:shadow-2xl p-4 sm:p-6 rounded-t-2xl flex flex-col gap-2">
       <div className="flex flex-col w-full font-bold text-right text-sm sm:text-base text-orange-500 hover:text-orange-700 transition-all">
         {!isPublic ? (
@@ -88,7 +87,6 @@ const ProfileInfo = ({
             onChange={(e) => setBio(e.target.value)}
           />
 
-          {/* 2. Butonlar mobilde alt alta (flex-col), tablet ve üstünde yan yana (sm:flex-row) */}
           <div className="flex flex-col sm:flex-row w-full gap-3 mt-2">
             <input
               className="w-full sm:w-1/2 bg-orange-500 text-white font-bold py-2 sm:py-3 rounded-lg cursor-pointer hover:bg-orange-600 transition-colors"
@@ -110,7 +108,6 @@ const ProfileInfo = ({
             className="cursor-pointer transition-transform hover:scale-105"
           >
             {avatar ? (
-              // 3. Avatar mobilde biraz daha küçük (w-20), büyük ekranda normal (sm:w-24)
               <img
                 src={avatar}
                 className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-orange-500 shadow-md"

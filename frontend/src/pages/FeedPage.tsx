@@ -8,11 +8,13 @@ const API_URL = "/posts/all";
 
 const FeedPage = () => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handlePosts = async () => {
       try {
         const response = await api.get(API_URL);
+        setLoading(false);
 
         const data = Array.isArray(response.data)
           ? (response.data as Post[])
@@ -29,12 +31,19 @@ const FeedPage = () => {
 
   return (
     <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden flex flex-col items-center pt-20 pb-60 px-4 md:px-8">
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="h-16 w-16 animate-spin rounded-full border-4 border-gray-300 border-t-orange-500"></div>
+        </div>
+      )}
       <div className="w-full max-w-2xl lg:max-w-3xl flex flex-col gap-6">
-        {posts.length > 0 ? (
-          posts.map((post) => <PostCard key={post.post_id} post={post} />)
-        ) : (
-          <div className="text-gray-400 text-center mt-10">No posts yet...</div>
-        )}
+        {posts.length > 0
+          ? posts.map((post) => <PostCard key={post.post_id} post={post} />)
+          : !loading && (
+              <div className="text-gray-400 text-center mt-10">
+                No posts yet...
+              </div>
+            )}
       </div>
 
       <div className="fixed bottom-6 z-40 w-[90vw] max-w-2xl left-1/2 -translate-x-1/2">

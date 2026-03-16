@@ -26,6 +26,15 @@ const SignUpPage = () => {
         throw new Error("Passwords do not match");
       }
       await api.post(`${API_URL}/register`, request);
+      Swal.fire({
+        icon: "success",
+        title: "Signup Successful!",
+        text: "Redirecting to login page...",
+        timer: 1500,
+        showConfirmButton: false,
+        background: "#1f2937",
+        color: "#fff",
+      });
       navigate("/login");
     } catch (error) {
       Swal.fire({

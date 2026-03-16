@@ -14,6 +14,16 @@ const LoginPage = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    Swal.fire({
+      title: "Logging in...",
+      background: "#1f2937",
+      color: "#fff",
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
 
     const request: LoginRequest = {
       email: email,
@@ -21,7 +31,15 @@ const LoginPage = () => {
     };
     try {
       const response = await api.post(`${API_URL}/login`, request);
-
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful!",
+        text: "Redirecting...",
+        timer: 1500,
+        showConfirmButton: false,
+        background: "#1f2937",
+        color: "#fff",
+      });
       const token = response.data.access_token;
       localStorage.setItem("token", token);
       await refreshUser();

@@ -19,7 +19,10 @@ logging.basicConfig(
 )
 app = FastAPI()
 
-cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173")
+cors_origins = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost:5173,http://localhost,http://localhost:80",
+)
 origins = [o.strip() for o in cors_origins.split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,

@@ -9,42 +9,46 @@ const CommentForm = ({ post }: { post: Post }) => {
   const [commentState, setCommentState] = useState(false);
   const { profile } = useAuth();
   const [content, setContent] = useState("");
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      const response = api.post(API_URL, {
+      await api.post(API_URL, {
         post_id: post.post_id,
         user: profile,
         content: content,
       });
-      return response;
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div>
+    <div className="w-full">
       <ChatBubbleLeftIcon
-        onClick={() => {
-          setCommentState(!commentState);
-        }}
-        className="cursor-pointer w-5 flex"
+        onClick={() => setCommentState(!commentState)}
+        className="cursor-pointer w-6 h-6 text-gray-400 hover:text-blue-500 transition-colors p-0.5"
       />
+
       {commentState && (
         <form
-          onSubmit={handleSubmit}
-          className="animate-slide-down w-sm items-center max-w-md mx-auto gap-2 flex mt-4 bg-gray-900/80 rounded"
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+          className="animate-slide-down w-full max-w-md flex items-stretch gap-2 mt-3 bg-gray-900/90 p-1.5 rounded-lg border border-white/5 shadow-xl"
         >
           <input
             type="text"
             value={content}
+            autoFocus
             onChange={(e) => setContent(e.target.value)}
-            className="w-full p-1 rounded bg-gray-800 border-gray-300/10 text-white"
+            className="flex-1 min-w-0 p-2 rounded bg-gray-800 border border-white/10 text-white placeholder-gray-500 text-base focus:border-blue-500 outline-none transition-all"
             placeholder="Leave a comment..."
           />
+
           <button
             type="submit"
-            className="transition-all w-20 cursor-pointer bg-blue-500 h-full hover:bg-blue-600 text-white text-sm font-bold p-1 rounded"
+            className="shrink-0 cursor-pointer bg-blue-500 hover:bg-blue-600 active:scale-95 text-white text-sm font-bold px-4 rounded transition-all"
           >
             Comment
           </button>

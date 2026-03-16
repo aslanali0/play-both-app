@@ -11,16 +11,21 @@ HEADERS = {
 TIMEOUT = httpx.Timeout(20.0)
 
 
+# This function is supposed to get albums and songs from vgmdb, but since vgmdb has cloudflare bot protection,
+# it will return 403 Forbidden for all requests.
+# This function is kept here for reference and future use if we decide to use a different source for albums and songs.
+# You can use this function as a template for scraping other websites that do not have bot protection, or if we find a way to bypass cloudflare in the future.
+# You can also use Chromium-based scraping tools like DrissionPage to simulate a real browser and bypass cloudflare,
+# but that would require a different implementation and is not included in this code snippet.
+#
 async def get_albums(game_name: str):
     albums = []
 
     async with httpx.AsyncClient(
         headers=HEADERS, follow_redirects=True, timeout=TIMEOUT
     ) as client:
-        # 1) Search
         resp = await client.get("https://vgmdb.net/search", params={"q": game_name})
         if resp.status_code == 403:
-            # burada açıkça gör: VGMdb bizi blokluyor
             raise httpx.HTTPStatusError(
                 "VGMdb returned 403 Forbidden", request=resp.request, response=resp
             )
@@ -29,7 +34,6 @@ async def get_albums(game_name: str):
         soup = bs4.BeautifulSoup(resp.text, "html.parser")
         results = soup.find(class_="results")
 
-        # 2) Eğer direkt albüm sayfasına düştüyse
         if not results:
             album_name = soup.find(class_="albumtitle")
             track_rows = soup.find_all("tr", class_="rolebit")
@@ -48,7 +52,6 @@ async def get_albums(game_name: str):
             )
             return albums
 
-        # 3) Search sonuçlarından albümleri gez
         all_albums = results.find_all(class_="albumtitle")
         for album in all_albums:
             link = album.get("href")
@@ -58,7 +61,6 @@ async def get_albums(game_name: str):
             if link.startswith("http://"):
                 link = link.replace("http://", "https://")
 
-            # link relative ise absolute yap
             if link.startswith("/"):
                 link = f"https://vgmdb.net{link}"
 
@@ -86,4 +88,3 @@ async def get_albums(game_name: str):
             )
 
     return albums
-

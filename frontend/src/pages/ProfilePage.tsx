@@ -70,7 +70,9 @@ const ProfilePage = () => {
           </div>
         </div>
       ) : (
-        <div className="animate-pulse text-lg mt-10">Loading...</div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="h-16 w-16 animate-spin rounded-full border-4 border-gray-300 border-t-orange-500"></div>
+        </div>
       )}
     </div>
   );

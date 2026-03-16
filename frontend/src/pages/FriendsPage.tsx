@@ -10,12 +10,14 @@ const API_URL = "/friendship";
 const FriendsPage = () => {
   const [friendsList, setFriendsList] = useState([]);
   const { user } = useAuth();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchFriends = async () => {
       try {
         const response = await api.get(`${API_URL}/friends/profiles`, {
           params: { username: user?.username },
         });
+        setLoading(false);
         const friendsProfiles = response.data;
         setFriendsList(friendsProfiles);
       } catch (error) {
@@ -28,22 +30,29 @@ const FriendsPage = () => {
 
   return (
     <div className="flex flex-col items-center w-full px-4 py-8 gap-10">
-      {friendsList && friendsList.length > 0 ? (
-        friendsList.map((friendProfile: UserProfile) => (
-          <div
-            key={friendProfile.username}
-            className="w-full max-w-3xl flex flex-col gap-4 bg-gray-900/20 p-4 sm:p-6 rounded-2xl border border-gray-700/20 transition-all hover:bg-gray-900/30"
-          >
-            <ProfileInfo isPublic={true} profile={friendProfile} />
-
-            <div className="w-full">
-              <Favorites isPublic={true} username={friendProfile.username} />
-            </div>
-          </div>
-        ))
-      ) : (
-        <div className="text-gray-400 mt-10 italic">No friends found yet.</div>
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="h-16 w-16 animate-spin rounded-full border-4 border-gray-300 border-t-orange-500"></div>
+        </div>
       )}
+      {friendsList && friendsList.length > 0
+        ? friendsList.map((friendProfile: UserProfile) => (
+            <div
+              key={friendProfile.username}
+              className="w-full max-w-3xl flex flex-col gap-4 bg-gray-900/20 p-4 sm:p-6 rounded-2xl border border-gray-700/20 transition-all hover:bg-gray-900/30"
+            >
+              <ProfileInfo isPublic={true} profile={friendProfile} />
+
+              <div className="w-full">
+                <Favorites isPublic={true} username={friendProfile.username} />
+              </div>
+            </div>
+          ))
+        : !loading && (
+            <div className="text-gray-400 mt-10 italic">
+              You got no friends...
+            </div>
+          )}
     </div>
   );
 };
