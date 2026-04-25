@@ -24,11 +24,15 @@ A web platform for discovering video games and their soundtracks. Search games v
 
 ---
 
-## Screenshots
+## 📸 Screenshots
 
-![Search Page](assets/screenshots/playboth_1.png)
-![Feed Page](assets/screenshots/playboth_3.png)
-![Profile Page](assets/screenshots/playboth_2.png)
+<div align="center">
+
+| 🔍 Search Page | 📝 Feed Page | 👤 Profile Page |
+|:-:|:-:|:-:|
+| ![Search Page](assets/screenshots/playboth_1.png) | ![Feed Page](assets/screenshots/playboth_3.png) | ![Profile Page](assets/screenshots/playboth_2.png) |
+
+</div>
 
 ---
 
